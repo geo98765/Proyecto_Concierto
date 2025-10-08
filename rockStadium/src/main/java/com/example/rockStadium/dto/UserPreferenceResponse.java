@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class UserPreferenceResponce {
+public class UserPreferenceResponse {
     Integer preferenceId;
     Integer searchRadius;
     Boolean emailNotifications;

@@ -1,12 +1,12 @@
 package com.example.rockStadium.service;
 
 import com.example.rockStadium.dto.UserPreferenceRequest;
-import com.example.rockStadium.dto.UserPreferenceResponce;
+import com.example.rockStadium.dto.UserPreferenceResponse;
 
 public interface UserPreferenceService {
 
-    UserPreferenceResponce create(UserPreferenceRequest req);
+    UserPreferenceResponse create(UserPreferenceRequest req);
 
-	UserPreferenceResponce update(Integer controlNumber, UserPreferenceRequest preferenceId);
+	UserPreferenceResponse update(Integer controlNumber, UserPreferenceRequest preferenceId);
 
 }
