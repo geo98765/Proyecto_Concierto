@@ -1,14 +1,12 @@
 package com.example.rockStadium.model;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,21 +18,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "user_preferences")
-public class UserPreference {
+@Table(name = "concerts_artists")
+public class ConcertArtist {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_preference_id", nullable = false)
-    private Integer userPreferenceId;
+    @Column(name = "concert_artist_id", nullable = false)
+    private Integer concertArtistId;
     
-    @Column(name = "search_radius", precision = 5, scale = 2)
-    private BigDecimal searchRadius;
+    @ManyToOne
+    @JoinColumn(name = "concert_id")
+    private Concert concert;
     
-    @Column(name = "email_notifications")
-    private Boolean emailNotifications;
-    
-    @OneToOne
-    @JoinColumn(name = "profile_id")
-    private Profile profile;
+    @ManyToOne
+    @JoinColumn(name = "artist_id")
+    private Artist artist;
 }

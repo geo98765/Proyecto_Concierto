@@ -1,7 +1,5 @@
 package com.example.rockStadium.model;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,19 +18,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "user_preferences")
-public class UserPreference {
+@Table(name = "profile_locations")
+public class ProfileLocation {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_preference_id", nullable = false)
-    private Integer userPreferenceId;
+    @Column(name = "profile_location_id", nullable = false)
+    private Integer profileLocationId;
     
-    @Column(name = "search_radius", precision = 5, scale = 2)
-    private BigDecimal searchRadius;
+    @Column(name = "municipality", length = 100)
+    private String municipality;
     
-    @Column(name = "email_notifications")
-    private Boolean emailNotifications;
+    @Column(name = "state", length = 100)
+    private String state;
+    
+    @Column(name = "country", length = 100)
+    private String country;
     
     @OneToOne
     @JoinColumn(name = "profile_id")
