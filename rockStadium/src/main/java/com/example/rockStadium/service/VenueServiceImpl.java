@@ -1,185 +1,170 @@
 package com.example.rockStadium.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.example.rockStadium.dto.NearbySearchResponse;
-import com.example.rockStadium.dto.PlaceInfoResponse;
-import com.example.rockStadium.dto.VenueRequest;
-import com.example.rockStadium.dto.VenueResponse;
-import com.example.rockStadium.dto.VenueSearchRequest;
-import com.example.rockStadium.mapper.VenueMapper;
-import com.example.rockStadium.model.Venue;
-import com.example.rockStadium.repository.VenueRepository;
-
+import com.example.rockStadium.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class VenueServiceImpl implements VenueService {
     
-    private final VenueRepository venueRepository;
-    private final VenueMapper venueMapper;
     private final SerpApiService serpApiService;
     
     @Override
-    @Transactional
-    public VenueResponse createVenue(VenueRequest request) {
-        Venue venue = venueMapper.toEntity(request);
-        venue = venueRepository.save(venue);
-        return venueMapper.toResponse(venue);
-    }
-    
-    @Override
-    @Transactional
-    public VenueResponse updateVenue(Integer venueId, VenueRequest request) {
-        Venue venue = venueRepository.findById(venueId)
-                .orElseThrow(() -> new RuntimeException("Recinto no encontrado"));
-        
-        venue.setName(request.getName());
-        venue.setCity(request.getCity());
-        venue.setLatitude(request.getLatitude());
-        venue.setLongitude(request.getLongitude());
-        venue.setCapacity(request.getCapacity());
-        venue.setParkingAvailable(request.getParkingAvailable());
-        
-        venue = venueRepository.save(venue);
-        return venueMapper.toResponse(venue);
-    }
-    
-    @Override
-    public VenueResponse getVenueById(Integer venueId) {
-        Venue venue = venueRepository.findById(venueId)
-                .orElseThrow(() -> new RuntimeException("Recinto no encontrado"));
-        return venueMapper.toResponse(venue);
-    }
-    
-    @Override
-    public List<VenueResponse> getAllVenues() {
-        return venueRepository.findAll().stream()
-                .map(venueMapper::toResponse)
-                .collect(Collectors.toList());
-    }
-    
-    @Override
-    public List<VenueResponse> getVenuesByCity(String city) {
-        return venueRepository.findByCity(city).stream()
-                .map(venueMapper::toResponse)
-                .collect(Collectors.toList());
-    }
-    
-    @Override
-    public List<VenueResponse> searchVenuesNearby(VenueSearchRequest request) {
-        return venueRepository.findVenuesWithinRadius(
-                request.getLatitude(),
-                request.getLongitude(),
-                request.getRadius()
-        ).stream()
-                .map(venueMapper::toResponse)
-                .collect(Collectors.toList());
-    }
-    
-    @Override
-    @Transactional
-    public void deleteVenue(Integer venueId) {
-        if (!venueRepository.existsById(venueId)) {
-            throw new RuntimeException("Recinto no encontrado");
-        }
-        venueRepository.deleteById(venueId);
-    }
-    
-    // NUEVOS MÉTODOS CON SERPAPI
-    
-    /**
-     * Enriquece la información del venue con datos de SerpApi
-     */
-    @Override
-    public VenueResponse getVenueWithEnrichedInfo(Integer venueId) {
-        Venue venue = venueRepository.findById(venueId)
-                .orElseThrow(() -> new RuntimeException("Recinto no encontrado"));
-        
+    public NearbySearchResponse searchVenuesInGoogleMaps(String query) {
+        log.info("Buscando venues en Google Maps: {}", query);
         try {
-            // Buscar información adicional del venue en Google Maps
-            PlaceInfoResponse placeInfo = serpApiService.searchVenueInfo(
-                venue.getName(), 
-                venue.getCity()
-            );
-            
-            log.info("Información enriquecida obtenida para: {}", venue.getName());
-            
-            // Aquí puedes mapear la información adicional al response
-            VenueResponse response = venueMapper.toResponse(venue);
-            // TODO: Agregar campos adicionales al VenueResponse si lo deseas
-            
-            return response;
+            return serpApiService.searchVenuesByQuery(query);
         } catch (Exception e) {
-            log.error("Error enriqueciendo información del venue: {}", e.getMessage());
-            // Retornar información básica si falla la API
-            return venueMapper.toResponse(venue);
+            log.error("Error buscando venues: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al buscar venues en Google Maps", e);
         }
     }
     
-    /**
-     * Obtiene hoteles cercanos al venue usando SerpApi
-     */
     @Override
-    public NearbySearchResponse getNearbyHotels(Integer venueId, Integer radius) {
-        Venue venue = venueRepository.findById(venueId)
-                .orElseThrow(() -> new RuntimeException("Recinto no encontrado"));
-        
-        return serpApiService.searchNearbyHotels(
-            venue.getLatitude(),
-            venue.getLongitude(),
-            radius
-        );
+    public NearbySearchResponse searchVenuesByLocation(Double lat, Double lng, String query) {
+        log.info("Buscando venues por ubicación: {},{} con query: {}", lat, lng, query);
+        try {
+            return serpApiService.searchNearbyPlaces(
+                BigDecimal.valueOf(lat),
+                BigDecimal.valueOf(lng),
+                query,
+                10000 // Radio de 10km por defecto
+            );
+        } catch (Exception e) {
+            log.error("Error buscando venues por ubicación: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al buscar venues por ubicación", e);
+        }
     }
     
-    /**
-     * Obtiene restaurantes cercanos al venue
-     */
     @Override
-    public NearbySearchResponse getNearbyRestaurants(Integer venueId, Integer radius) {
-        Venue venue = venueRepository.findById(venueId)
-                .orElseThrow(() -> new RuntimeException("Recinto no encontrado"));
-        
-        return serpApiService.searchNearbyRestaurants(
-            venue.getLatitude(),
-            venue.getLongitude(),
-            radius
-        );
+    public PlaceInfoResponse getVenueDetailsByPlaceId(String placeId) {
+        log.info("Obteniendo detalles del venue con Place ID: {}", placeId);
+        try {
+            return serpApiService.getPlaceDetailsByPlaceId(placeId);
+        } catch (Exception e) {
+            log.error("Error obteniendo detalles del venue: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al obtener detalles del venue", e);
+        }
     }
     
-    /**
-     * Obtiene estacionamientos cercanos al venue
-     */
     @Override
-    public NearbySearchResponse getNearbyParkings(Integer venueId) {
-        Venue venue = venueRepository.findById(venueId)
-                .orElseThrow(() -> new RuntimeException("Recinto no encontrado"));
-        
-        return serpApiService.searchNearbyParkings(
-            venue.getLatitude(),
-            venue.getLongitude(),
-            2 // 2 km de radio por defecto
-        );
+    public NearbySearchResponse findVenuesNearby(Double lat, Double lng, Integer radius) {
+        log.info("Buscando venues cercanos a: {},{} con radio: {}m", lat, lng, radius);
+        try {
+            return serpApiService.searchNearbyPlaces(
+                BigDecimal.valueOf(lat),
+                BigDecimal.valueOf(lng),
+                "concert venue",
+                radius
+            );
+        } catch (Exception e) {
+            log.error("Error buscando venues cercanos: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al buscar venues cercanos", e);
+        }
     }
     
-    /**
-     * Obtiene transporte público cercano al venue
-     */
     @Override
-    public NearbySearchResponse getNearbyTransport(Integer venueId) {
-        Venue venue = venueRepository.findById(venueId)
-                .orElseThrow(() -> new RuntimeException("Recinto no encontrado"));
-        
-        return serpApiService.searchNearbyTransport(
-            venue.getLatitude(),
-            venue.getLongitude()
-        );
+    public NearbySearchResponse getHotelsNearVenue(String placeId, Integer radius) {
+        log.info("Obteniendo hoteles cerca del venue: {}", placeId);
+        try {
+            // Primero obtenemos los detalles del venue para obtener sus coordenadas
+            PlaceInfoResponse venueDetails = getVenueDetailsByPlaceId(placeId);
+            
+            if (venueDetails.getLocalResults() != null && !venueDetails.getLocalResults().isEmpty()) {
+                PlaceInfoResponse.PlaceDetail venue = venueDetails.getLocalResults().get(0);
+                
+                if (venue.getGpsCoordinates() != null) {
+                    return serpApiService.searchNearbyHotels(
+                        venue.getGpsCoordinates().getLatitude(),
+                        venue.getGpsCoordinates().getLongitude(),
+                        radius
+                    );
+                }
+            }
+            
+            throw new RuntimeException("No se pudieron obtener las coordenadas del venue");
+        } catch (Exception e) {
+            log.error("Error obteniendo hoteles cerca del venue: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al obtener hoteles", e);
+        }
+    }
+    
+    @Override
+    public NearbySearchResponse getRestaurantsNearVenue(String placeId, Integer radius) {
+        log.info("Obteniendo restaurantes cerca del venue: {}", placeId);
+        try {
+            PlaceInfoResponse venueDetails = getVenueDetailsByPlaceId(placeId);
+            
+            if (venueDetails.getLocalResults() != null && !venueDetails.getLocalResults().isEmpty()) {
+                PlaceInfoResponse.PlaceDetail venue = venueDetails.getLocalResults().get(0);
+                
+                if (venue.getGpsCoordinates() != null) {
+                    return serpApiService.searchNearbyRestaurants(
+                        venue.getGpsCoordinates().getLatitude(),
+                        venue.getGpsCoordinates().getLongitude(),
+                        radius
+                    );
+                }
+            }
+            
+            throw new RuntimeException("No se pudieron obtener las coordenadas del venue");
+        } catch (Exception e) {
+            log.error("Error obteniendo restaurantes cerca del venue: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al obtener restaurantes", e);
+        }
+    }
+    
+    @Override
+    public NearbySearchResponse getParkingNearVenue(String placeId) {
+        log.info("Obteniendo estacionamientos cerca del venue: {}", placeId);
+        try {
+            PlaceInfoResponse venueDetails = getVenueDetailsByPlaceId(placeId);
+            
+            if (venueDetails.getLocalResults() != null && !venueDetails.getLocalResults().isEmpty()) {
+                PlaceInfoResponse.PlaceDetail venue = venueDetails.getLocalResults().get(0);
+                
+                if (venue.getGpsCoordinates() != null) {
+                    return serpApiService.searchNearbyParkings(
+                        venue.getGpsCoordinates().getLatitude(),
+                        venue.getGpsCoordinates().getLongitude(),
+                        2000
+                    );
+                }
+            }
+            
+            throw new RuntimeException("No se pudieron obtener las coordenadas del venue");
+        } catch (Exception e) {
+            log.error("Error obteniendo estacionamientos cerca del venue: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al obtener estacionamientos", e);
+        }
+    }
+    
+    @Override
+    public NearbySearchResponse getTransportNearVenue(String placeId) {
+        log.info("Obteniendo transporte público cerca del venue: {}", placeId);
+        try {
+            PlaceInfoResponse venueDetails = getVenueDetailsByPlaceId(placeId);
+            
+            if (venueDetails.getLocalResults() != null && !venueDetails.getLocalResults().isEmpty()) {
+                PlaceInfoResponse.PlaceDetail venue = venueDetails.getLocalResults().get(0);
+                
+                if (venue.getGpsCoordinates() != null) {
+                    return serpApiService.searchNearbyTransport(
+                        venue.getGpsCoordinates().getLatitude(),
+                        venue.getGpsCoordinates().getLongitude()
+                    );
+                }
+            }
+            
+            throw new RuntimeException("No se pudieron obtener las coordenadas del venue");
+        } catch (Exception e) {
+            log.error("Error obteniendo transporte cerca del venue: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al obtener transporte", e);
+        }
     }
 }

@@ -175,9 +175,52 @@ public class SerpApiService {
                 throw new IOException("Error en la petición: " + response.code());
             }
             
-            log.debug("Respuesta exitosa de SerpApi");
+            // LOG TEMPORAL: Ver qué devuelve realmente SerpApi
+            log.info("=== RESPUESTA CRUDA DE SERPAPI ===");
+            log.info(responseBody);
+            log.info("=== FIN RESPUESTA ===");
             
             return gson.fromJson(responseBody, responseType);
+        }
+    }
+    
+    /**
+     * Busca venues por query general
+     */
+    public NearbySearchResponse searchVenuesByQuery(String query) {
+        try {
+            String url = String.format(
+                "%s?engine=google_maps&type=search&q=%s&api_key=%s",
+                config.getBaseUrl(),
+                query.replace(" ", "+"),
+                config.getApiKey()
+            );
+            
+            log.info("Buscando venues con query: {}", query);
+            return executeRequest(url, NearbySearchResponse.class);
+        } catch (Exception e) {
+            log.error("Error buscando venues: {}", e.getMessage());
+            throw new RuntimeException("Error al buscar venues", e);
+        }
+    }
+    
+    /**
+     * Obtiene detalles de un lugar por Place ID
+     */
+    public PlaceInfoResponse getPlaceDetailsByPlaceId(String placeId) {
+        try {
+            String url = String.format(
+                "%s?engine=google_maps&type=place&place_id=%s&api_key=%s",
+                config.getBaseUrl(),
+                placeId,
+                config.getApiKey()
+            );
+            
+            log.info("Obteniendo detalles del lugar con Place ID: {}", placeId);
+            return executeRequest(url, PlaceInfoResponse.class);
+        } catch (Exception e) {
+            log.error("Error obteniendo detalles del lugar: {}", e.getMessage());
+            throw new RuntimeException("Error al obtener detalles del lugar", e);
         }
     }
     

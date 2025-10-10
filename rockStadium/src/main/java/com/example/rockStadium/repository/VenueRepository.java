@@ -1,18 +1,22 @@
 package com.example.rockStadium.repository;
 
-import com.example.rockStadium.model.Venue;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.example.rockStadium.model.Venue;
 
 @Repository
 public interface VenueRepository extends JpaRepository<Venue, Integer> {
     
     List<Venue> findByCity(String city);
+    
+    // NUEVO: Buscar por nombre (búsqueda parcial, case-insensitive)
+    List<Venue> findByNameContainingIgnoreCase(String name);
     
     @Query("SELECT v FROM Venue v WHERE " +
            "(6371 * acos(cos(radians(:latitude)) * cos(radians(v.latitude)) * " +

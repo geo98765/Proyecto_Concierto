@@ -1,26 +1,51 @@
 package com.example.rockStadium.service;
 
-import java.util.List;
-
 import com.example.rockStadium.dto.NearbySearchResponse;
-import com.example.rockStadium.dto.VenueRequest;
-import com.example.rockStadium.dto.VenueResponse;
-import com.example.rockStadium.dto.VenueSearchRequest;
+import com.example.rockStadium.dto.PlaceInfoResponse;
 
 public interface VenueService {
-    // Métodos originales
-    VenueResponse createVenue(VenueRequest request);
-    VenueResponse updateVenue(Integer venueId, VenueRequest request);
-    VenueResponse getVenueById(Integer venueId);
-    List<VenueResponse> getAllVenues();
-    List<VenueResponse> getVenuesByCity(String city);
-    List<VenueResponse> searchVenuesNearby(VenueSearchRequest request);
-    void deleteVenue(Integer venueId);
     
-    // Nuevos métodos con SerpApi
-    VenueResponse getVenueWithEnrichedInfo(Integer venueId);
-    NearbySearchResponse getNearbyHotels(Integer venueId, Integer radius);
-    NearbySearchResponse getNearbyRestaurants(Integer venueId, Integer radius);
-    NearbySearchResponse getNearbyParkings(Integer venueId);
-    NearbySearchResponse getNearbyTransport(Integer venueId);
+    // ====== MÉTODOS DE BÚSQUEDA EN GOOGLE MAPS ======
+    
+    /**
+     * Buscar venues en Google Maps por nombre o query
+     */
+    NearbySearchResponse searchVenuesInGoogleMaps(String query);
+    
+    /**
+     * Buscar venues por ubicación geográfica
+     */
+    NearbySearchResponse searchVenuesByLocation(Double lat, Double lng, String query);
+    
+    /**
+     * Obtener detalles de un venue por Place ID de Google
+     */
+    PlaceInfoResponse getVenueDetailsByPlaceId(String placeId);
+    
+    /**
+     * Encontrar venues cercanos a una ubicación
+     */
+    NearbySearchResponse findVenuesNearby(Double lat, Double lng, Integer radius);
+    
+    // ====== MÉTODOS PARA OBTENER SERVICIOS CERCA DE UN VENUE ======
+    
+    /**
+     * Obtener hoteles cerca de un venue (identificado por Place ID)
+     */
+    NearbySearchResponse getHotelsNearVenue(String placeId, Integer radius);
+    
+    /**
+     * Obtener restaurantes cerca de un venue
+     */
+    NearbySearchResponse getRestaurantsNearVenue(String placeId, Integer radius);
+    
+    /**
+     * Obtener estacionamientos cerca de un venue
+     */
+    NearbySearchResponse getParkingNearVenue(String placeId);
+    
+    /**
+     * Obtener transporte público cerca de un venue
+     */
+    NearbySearchResponse getTransportNearVenue(String placeId);
 }
