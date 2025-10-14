@@ -1,12 +1,12 @@
 package com.example.rockStadium.dto;
 
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -21,4 +21,6 @@ public class VenueResponse {
     private Integer capacity;
     private Boolean parkingAvailable;
     private WeatherResponse weather;
+
+
 }

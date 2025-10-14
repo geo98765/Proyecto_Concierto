@@ -1,12 +1,24 @@
 package com.example.rockStadium.dto;
 
-import lombok.Builder;
-import lombok.Value;
+import java.math.BigDecimal;
+import java.util.List;
 
-@Value
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserPreferenceResponse {
-    Integer preferenceId;
-    Integer searchRadius;
-    Boolean emailNotifications;
+    private Integer preferenceId;
+    private Integer userId;
+    private BigDecimal searchRadiusKm;
+    private Boolean emailNotifications;
+    private Boolean pushNotifications;
+    private List<ArtistResponse> favoriteArtists;
+    private Integer favoriteArtistsCount;
+    private Integer favoriteGenresCount;
 }
