@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.rockStadium.config.SerpApiConfig;
 import com.example.rockStadium.dto.NearbySearchResponse;
 import com.example.rockStadium.dto.PlaceInfoResponse;
+import com.example.rockStadium.dto.WeatherResponse;
 import com.google.gson.Gson;
 
 import lombok.RequiredArgsConstructor;
@@ -156,7 +157,25 @@ public class SerpApiService {
             throw new RuntimeException("Error al buscar información del recinto", e);
         }
     }
-    
+   /**
+ * Obtiene el clima para una ubicación usando Google Weather
+ */
+public WeatherResponse getWeatherByLocation(String location) {
+    try {
+        String url = String.format(
+            "%s?engine=google&q=weather+%s&api_key=%s",
+            config.getBaseUrl(),
+            location.replace(" ", "+"),
+            config.getApiKey()
+        );
+        
+        log.info("Obteniendo clima para: {}", location);
+        return executeRequest(url, WeatherResponse.class);
+    } catch (Exception e) {
+        log.error("Error obteniendo clima: {}", e.getMessage());
+        throw new RuntimeException("Error al obtener clima", e);
+    }
+}
     /**
      * Ejecuta una petición HTTP y parsea la respuesta
      */
@@ -205,25 +224,39 @@ public class SerpApiService {
     }
     
     /**
-     * Obtiene detalles de un lugar por Place ID
-     */
-    public PlaceInfoResponse getPlaceDetailsByPlaceId(String placeId) {
-        try {
-            String url = String.format(
-                "%s?engine=google_maps&type=place&place_id=%s&api_key=%s",
-                config.getBaseUrl(),
-                placeId,
-                config.getApiKey()
-            );
-            
-            log.info("Obteniendo detalles del lugar con Place ID: {}", placeId);
-            return executeRequest(url, PlaceInfoResponse.class);
-        } catch (Exception e) {
-            log.error("Error obteniendo detalles del lugar: {}", e.getMessage());
-            throw new RuntimeException("Error al obtener detalles del lugar", e);
+ * Obtiene detalles de un lugar por Place ID
+ * CORREGIDO: Usa el engine correcto para detalles
+ */
+public PlaceInfoResponse getPlaceDetailsByPlaceId(String placeId) {
+    try {
+        // IMPORTANTE: Para obtener detalles completos, usa el engine "google_maps"
+        // con el parámetro "data_id" o "place_id"
+        String url = String.format(
+            "%s?engine=google_maps&type=place&data_id=%s&api_key=%s",
+            config.getBaseUrl(),
+            placeId,
+            config.getApiKey()
+        );
+        
+        log.info("Obteniendo detalles del lugar con Place ID: {}", placeId);
+        log.info("URL: {}", url.replace(config.getApiKey(), "***"));
+        
+        PlaceInfoResponse response = executeRequest(url, PlaceInfoResponse.class);
+        
+        // Log de la respuesta para debugging
+        if (response == null || response.getLocalResults() == null || response.getLocalResults().isEmpty()) {
+            log.warn("⚠️  No se obtuvieron detalles del lugar. Respuesta vacía.");
+        } else {
+            log.info("✅ Detalles obtenidos: {}", response.getLocalResults().get(0).getTitle());
         }
+        
+        return response;
+        
+    } catch (Exception e) {
+        log.error("Error obteniendo detalles del lugar: {}", e.getMessage(), e);
+        throw new RuntimeException("Error al obtener detalles del lugar", e);
     }
-    
+}
     /**
      * Busca lugares por tipo (genérico)
      */

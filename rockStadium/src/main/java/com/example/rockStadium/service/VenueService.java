@@ -18,9 +18,10 @@ public interface VenueService {
     NearbySearchResponse searchVenuesByLocation(Double lat, Double lng, String query);
     
     /**
-     * Obtener detalles de un venue por Place ID de Google
+     * Obtener detalles de un venue por query/nombre
+     * (Actualizado para usar búsqueda en lugar de Place ID)
      */
-    PlaceInfoResponse getVenueDetailsByPlaceId(String placeId);
+    PlaceInfoResponse getVenueDetails(String query);
     
     /**
      * Encontrar venues cercanos a una ubicación

@@ -1,17 +1,25 @@
 package com.example.rockStadium.controller;
 
+import java.math.BigDecimal;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.example.rockStadium.dto.NearbySearchResponse;
 import com.example.rockStadium.dto.PlaceInfoResponse;
 import com.example.rockStadium.service.ParkingService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/parking")
 @RequiredArgsConstructor
+@Tag(name = "Estacionamientos", description = "Endpoints para estacionamientos cercanos")
 public class ParkingController {
     
     private final ParkingService parkingService;

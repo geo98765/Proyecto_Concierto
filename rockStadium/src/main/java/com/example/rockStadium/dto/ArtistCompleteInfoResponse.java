@@ -1,27 +1,29 @@
-// package com.example.rockStadium.dto;
+package com.example.rockStadium.dto;
 
-// import lombok.AllArgsConstructor;
-// import lombok.Builder;
-// import lombok.Data;
-// import lombok.NoArgsConstructor;
+import java.util.List;
 
-// import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-// /**
-//  * DTO que contiene toda la información del artista + eventos + servicios cercanos
-//  */
-// @Data
-// @Builder
-// @NoArgsConstructor
-// @AllArgsConstructor
-// public class ArtistCompleteInfoResponse {
+/**
+ * DTO que contiene toda la información del artista + eventos + servicios cercanos
+ */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ArtistCompleteInfoResponse {
     
-//     // Información del artista desde Spotify
-//     private ArtistResponse artist;
+    // Información del artista desde Spotify
+    private ArtistResponse artist;
     
-//     // Eventos/conciertos próximos del artista
-//     private List<ArtistEventInfo> upcomingEvents;
+    // Eventos/conciertos próximos del artista
+    private List<ArtistEventInfo> upcomingEvents;
     
-//     // Metadata
-//     private Integer totalEventsFound;
-// }
+    // Metadata
+    private Integer totalEventsFound;
+    private String searchedQuery;
+    private String message;
+}

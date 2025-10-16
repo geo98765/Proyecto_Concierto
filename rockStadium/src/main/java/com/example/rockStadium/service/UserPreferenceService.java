@@ -3,23 +3,24 @@ package com.example.rockStadium.service;
 import java.util.List;
 
 import com.example.rockStadium.dto.ArtistResponse;
+import com.example.rockStadium.dto.MusicGenreResponse;
 import com.example.rockStadium.dto.UserPreferenceRequest;
 import com.example.rockStadium.dto.UserPreferenceResponse;
 
 public interface UserPreferenceService {
     
-    // Configuración de preferencias
-    UserPreferenceResponse create(UserPreferenceRequest req);
-    UserPreferenceResponse update(Integer userId, UserPreferenceRequest req);
+    // ===== PREFERENCIAS DE BÚSQUEDA =====
+    UserPreferenceResponse createOrUpdatePreferences(Integer userId, UserPreferenceRequest request);
     UserPreferenceResponse getPreferences(Integer userId);
     
-    // Artistas favoritos
+    // ===== ARTISTAS FAVORITOS =====
     UserPreferenceResponse addFavoriteArtist(Integer userId, String spotifyId);
     UserPreferenceResponse removeFavoriteArtist(Integer userId, Integer artistId);
     List<ArtistResponse> getFavoriteArtists(Integer userId);
     
-    // Géneros favoritos
+    // ===== GÉNEROS FAVORITOS =====
     UserPreferenceResponse addFavoriteGenre(Integer userId, Integer genreId);
     UserPreferenceResponse removeFavoriteGenre(Integer userId, Integer genreId);
-
+    List<MusicGenreResponse> getFavoriteGenres(Integer userId);
+    List<MusicGenreResponse> getAllGenres();
 }
