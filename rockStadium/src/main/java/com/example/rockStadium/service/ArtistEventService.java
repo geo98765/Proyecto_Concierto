@@ -49,49 +49,47 @@ public class ArtistEventService {
                     .totalEventsFound(events.size())
                     .searchedQuery("Ticketmaster: " + artist.getName())
                     .message(events.isEmpty() 
-                        ? "No se encontraron eventos próximos para este artista en Ticketmaster" 
-                        : String.format("✅ Encontrados %d eventos confirmados con información completa", events.size()))
+                        ? "No se encontraron eventos próximos para este artista" 
+                        : String.format("Se encontraron %d eventos próximos", events.size()))
                     .build();
                     
         } catch (Exception e) {
-            log.error("❌ Error obteniendo información completa del artista: {}", e.getMessage(), e);
-            throw new RuntimeException("Error al obtener información del artista: " + e.getMessage(), e);
+            log.error("❌ Error obteniendo información del artista: {}", e.getMessage(), e);
+            throw new RuntimeException("Error al obtener información completa del artista", e);
         }
     }
     
     /**
-     * Procesa los eventos de Ticketmaster y enriquece con clima, hoteles y transporte
+     * Procesa los eventos de Ticketmaster y enriquece con información adicional
      */
-    private List<ArtistEventInfo> processTicketmasterEvents(TicketmasterEventResponse response, String artistName) {
-        if (response.getEmbedded() == null || response.getEmbedded().getEvents() == null) {
-            log.warn("⚠️  No se encontraron eventos en Ticketmaster");
+    private List<ArtistEventInfo> processTicketmasterEvents(
+            TicketmasterEventResponse ticketmasterResponse, 
+            String artistName) {
+        
+        if (ticketmasterResponse == null || ticketmasterResponse.getEmbedded() == null 
+                || ticketmasterResponse.getEmbedded().getEvents() == null) {
+            log.info("⚠️  No se encontraron eventos en Ticketmaster para: {}", artistName);
             return new ArrayList<>();
         }
         
-        List<TicketmasterEventResponse.Event> events = response.getEmbedded().getEvents();
-        log.info("📍 Procesando {} eventos de Ticketmaster", events.size());
+        List<TicketmasterEventResponse.Event> events = ticketmasterResponse.getEmbedded().getEvents();
+        log.info("📋 Procesando {} eventos encontrados...", events.size());
         
-        // Limitar a los primeros 5 eventos para no saturar las APIs
         return events.stream()
-                .limit(5)
-                .map(event -> enrichTicketmasterEvent(event, artistName))
-                .filter(event -> event != null) // Filtrar eventos nulos (errores)
+                .map(this::enrichEventWithAdditionalInfo)
+                .filter(event -> event != null) // Filtrar eventos que fallaron
                 .collect(Collectors.toList());
     }
     
     /**
-     * Enriquece un evento de Ticketmaster con información adicional (clima, hoteles, transporte)
+     * Enriquece un evento con información adicional (clima, hoteles, transporte)
      */
-    private ArtistEventInfo enrichTicketmasterEvent(TicketmasterEventResponse.Event event, String artistName) {
+    private ArtistEventInfo enrichEventWithAdditionalInfo(TicketmasterEventResponse.Event event) {
         try {
             log.info("🎵 Procesando evento: {}", event.getName());
             
-            // Extraer información del venue
-            TicketmasterEventResponse.Venue ticketmasterVenue = null;
-            if (event.getEmbedded() != null && event.getEmbedded().getVenues() != null 
-                    && !event.getEmbedded().getVenues().isEmpty()) {
-                ticketmasterVenue = event.getEmbedded().getVenues().get(0);
-            }
+            // Obtener venue del evento
+            TicketmasterEventResponse.Venue ticketmasterVenue = extractVenue(event);
             
             if (ticketmasterVenue == null) {
                 log.warn("⚠️  Evento sin venue, saltando: {}", event.getName());
@@ -114,11 +112,8 @@ public class ArtistEventService {
             // Obtener información adicional del lugar
             log.info("🌤️  Obteniendo clima, hoteles y transporte...");
             
-            // Clima
-            String locationQuery = String.format("%s, %s", 
-                ticketmasterVenue.getCity() != null ? ticketmasterVenue.getCity().getName() : "",
-                ticketmasterVenue.getCountry() != null ? ticketmasterVenue.getCountry().getName() : ""
-            );
+            // Clima (con manejo de errores mejorado)
+            String locationQuery = buildLocationQuery(ticketmasterVenue);
             WeatherResponse weather = getWeatherForLocation(locationQuery);
             
             // Hoteles cercanos (top 5)
@@ -153,21 +148,34 @@ public class ArtistEventService {
     }
     
     /**
+     * Extrae el venue del evento de Ticketmaster
+     */
+    private TicketmasterEventResponse.Venue extractVenue(TicketmasterEventResponse.Event event) {
+        if (event.getEmbedded() == null || event.getEmbedded().getVenues() == null 
+                || event.getEmbedded().getVenues().isEmpty()) {
+            return null;
+        }
+        return event.getEmbedded().getVenues().get(0);
+    }
+    
+    /**
      * Construye información del venue desde Ticketmaster
      */
     private ArtistEventInfo.VenueInfo buildVenueInfoFromTicketmaster(TicketmasterEventResponse.Venue venue) {
-        String fullAddress = String.format("%s, %s, %s",
-            venue.getAddress() != null ? venue.getAddress().getLine1() : "",
-            venue.getCity() != null ? venue.getCity().getName() : "",
-            venue.getCountry() != null ? venue.getCountry().getName() : ""
-        );
+        String fullAddress = buildFullAddress(venue);
         
         return ArtistEventInfo.VenueInfo.builder()
                 .name(venue.getName())
                 .address(fullAddress)
-                .latitude(venue.getLocation() != null ? new BigDecimal(venue.getLocation().getLatitude()) : null)
-                .longitude(venue.getLocation() != null ? new BigDecimal(venue.getLocation().getLongitude()) : null)
-                .placeId(venue.getId())
+                .latitude(venue.getLocation() != null && venue.getLocation().getLatitude() != null 
+                        ? new BigDecimal(venue.getLocation().getLatitude()) : null)
+                .longitude(venue.getLocation() != null && venue.getLocation().getLongitude() != null 
+                        ? new BigDecimal(venue.getLocation().getLongitude()) : null)
+                .placeId(null) // Ticketmaster no provee Place ID
+                .rating(null)
+                .reviews(null)
+                .phone(null)
+                .website(venue.getUrl())
                 .parkingInfo(venue.getParkingDetail())
                 .accessibilityInfo(venue.getAccessibleSeatingDetail())
                 .timezone(venue.getTimezone())
@@ -175,7 +183,58 @@ public class ArtistEventService {
     }
     
     /**
-     * Construye la fecha del evento en formato legible
+     * Construye la dirección completa del venue
+     */
+    private String buildFullAddress(TicketmasterEventResponse.Venue venue) {
+        StringBuilder address = new StringBuilder();
+        
+        if (venue.getAddress() != null && venue.getAddress().getLine1() != null) {
+            address.append(venue.getAddress().getLine1());
+        }
+        
+        if (venue.getCity() != null && venue.getCity().getName() != null) {
+            if (address.length() > 0) address.append(", ");
+            address.append(venue.getCity().getName());
+        }
+        
+        if (venue.getState() != null && venue.getState().getName() != null) {
+            if (address.length() > 0) address.append(", ");
+            address.append(venue.getState().getName());
+        }
+        
+        if (venue.getCountry() != null && venue.getCountry().getName() != null) {
+            if (address.length() > 0) address.append(", ");
+            address.append(venue.getCountry().getName());
+        }
+        
+        return address.toString();
+    }
+    
+    /**
+     * Construye el query de ubicación para la búsqueda de clima
+     */
+    private String buildLocationQuery(TicketmasterEventResponse.Venue venue) {
+        StringBuilder location = new StringBuilder();
+        
+        if (venue.getCity() != null && venue.getCity().getName() != null) {
+            location.append(venue.getCity().getName());
+        }
+        
+        if (venue.getState() != null && venue.getState().getStateCode() != null) {
+            if (location.length() > 0) location.append(" ");
+            location.append(venue.getState().getStateCode());
+        }
+        
+        if (venue.getCountry() != null && venue.getCountry().getCountryCode() != null) {
+            if (location.length() > 0) location.append(" ");
+            location.append(venue.getCountry().getCountryCode());
+        }
+        
+        return location.toString();
+    }
+    
+    /**
+     * Construye la fecha del evento
      */
     private String buildEventDate(TicketmasterEventResponse.Event event) {
         if (event.getDates() == null || event.getDates().getStart() == null) {
@@ -207,16 +266,22 @@ public class ArtistEventService {
     
     /**
      * Obtiene el clima para una ubicación
+     * CORREGIDO: Ahora maneja correctamente los errores
      */
     private WeatherResponse getWeatherForLocation(String location) {
         try {
-            if (location != null && !location.isEmpty()) {
-                return serpApiService.getWeatherByLocation(location);
+            if (location == null || location.trim().isEmpty()) {
+                log.warn("⚠️  Ubicación vacía, no se puede obtener clima");
+                return null;
             }
+            
+            log.info("🌤️  Buscando clima para: {}", location);
+            return serpApiService.getWeatherByLocation(location);
+            
         } catch (Exception e) {
-            log.warn("⚠️  No se pudo obtener clima: {}", e.getMessage());
+            log.warn("⚠️  No se pudo obtener clima para {}: {}", location, e.getMessage());
+            return null; // Retornar null en lugar de lanzar excepción
         }
-        return null;
     }
     
     /**
@@ -224,8 +289,10 @@ public class ArtistEventService {
      */
     private List<NearbyPlaceDto> getNearbyHotels(BigDecimal lat, BigDecimal lng) {
         try {
+            log.info("🏨 Buscando hoteles cercanos...");
             NearbySearchResponse hotels = serpApiService.searchNearbyHotels(lat, lng, 5000);
-            if (hotels.getLocalResults() != null) {
+            
+            if (hotels != null && hotels.getLocalResults() != null) {
                 return hotels.getLocalResults().stream()
                         .limit(5)
                         .collect(Collectors.toList());
@@ -241,8 +308,10 @@ public class ArtistEventService {
      */
     private List<NearbyPlaceDto> getNearbyTransport(BigDecimal lat, BigDecimal lng) {
         try {
+            log.info("🚇 Buscando transporte cercano...");
             NearbySearchResponse transport = serpApiService.searchNearbyTransport(lat, lng);
-            if (transport.getLocalResults() != null) {
+            
+            if (transport != null && transport.getLocalResults() != null) {
                 return transport.getLocalResults().stream()
                         .limit(5)
                         .collect(Collectors.toList());

@@ -2,6 +2,8 @@ package com.example.rockStadium.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +36,7 @@ public class UserPreference {
     @Column(name = "email_notifications")
     private Boolean emailNotifications;
     
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "profile_id")
     private Profile profile;

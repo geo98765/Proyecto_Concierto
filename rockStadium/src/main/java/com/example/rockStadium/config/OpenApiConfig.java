@@ -24,15 +24,7 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("RockStadium API")
                         .version("1.0.0")
-                        .description("API para búsqueda de conciertos, artistas y servicios cercanos a venues.\n\n" +
-                                "**Características principales:**\n" +
-                                "- 🎸 Búsqueda de artistas en Spotify\n" +
-                                "- 🎫 Eventos en tiempo real desde Ticketmaster\n" +
-                                "- 🏨 Hoteles cercanos a venues\n" +
-                                "- 🚇 Opciones de transporte público\n" +
-                                "- 🅿️ Estacionamientos cercanos\n" +
-                                "- 🌤️ Información del clima\n" +
-                                "- ⭐ Gestión de artistas y géneros favoritos")
+                        .description("API para búsqueda de conciertos, artistas y servicios cercanos a venues.\n\n")
                         .contact(new Contact()
                                 .name("RockStadium Team")
                                 .email("support@rockstadium.com")

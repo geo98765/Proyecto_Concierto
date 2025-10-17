@@ -1,6 +1,10 @@
 package com.example.rockStadium.service;
 
-import com.example.rockStadium.dto.*;
+import com.example.rockStadium.dto.LoginRequest;
+import com.example.rockStadium.dto.UpdatePasswordRequest;
+import com.example.rockStadium.dto.UpdateProfileRequest;
+import com.example.rockStadium.dto.UserRequest;
+import com.example.rockStadium.dto.UserResponse;
 
 public interface UserService {
     UserResponse registerUser(UserRequest request);

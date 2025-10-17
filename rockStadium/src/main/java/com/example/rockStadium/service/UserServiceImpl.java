@@ -1,6 +1,13 @@
 package com.example.rockStadium.service;
 
-import com.example.rockStadium.dto.*;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.rockStadium.dto.LoginRequest;
+import com.example.rockStadium.dto.UpdatePasswordRequest;
+import com.example.rockStadium.dto.UpdateProfileRequest;
+import com.example.rockStadium.dto.UserRequest;
+import com.example.rockStadium.dto.UserResponse;
 import com.example.rockStadium.mapper.UserMapper;
 import com.example.rockStadium.model.Profile;
 import com.example.rockStadium.model.ProfileLocation;
@@ -8,9 +15,8 @@ import com.example.rockStadium.model.User;
 import com.example.rockStadium.repository.ProfileLocationRepository;
 import com.example.rockStadium.repository.ProfileRepository;
 import com.example.rockStadium.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor

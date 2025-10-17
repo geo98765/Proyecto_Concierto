@@ -2,7 +2,13 @@ package com.example.rockStadium.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +31,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/artists")
+@RequestMapping("/api/v1/artists")
 @RequiredArgsConstructor
 @Slf4j
 @Tag(name = "Artistas", description = "Endpoints para gestión y búsqueda de artistas musicales")
@@ -48,13 +54,43 @@ public class ArtistController {
         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     })
     @GetMapping("/search")
-    public ResponseEntity<List<ArtistResponse>> searchArtists(
-            @Parameter(description = "Nombre del artista a buscar", example = "Metallica", required = true)
-            @RequestParam String name) {
-        log.info("Buscando artistas con nombre: {}", name);
-        List<ArtistResponse> artists = spotifyService.searchArtistsByName(name);
-        return ResponseEntity.ok(artists);
-    }
+public ResponseEntity<Page<ArtistResponse>> searchArtists(
+        @Parameter(
+            description = "Artist name to search for", 
+            example = "Metallica", 
+            required = true
+        )
+        @RequestParam String name,
+        @Parameter(
+            description = "Pagination parameters (page, size)",
+            example = "page=0&size=10"
+        )
+        @PageableDefault(size = 10) Pageable pageable) {
+    
+    log.info("🔍 Searching artists: '{}' (page: {}, size: {})", 
+        name, pageable.getPageNumber(), pageable.getPageSize());
+    
+    // Obtener todos los artistas del service (sin cambios en el service)
+    List<ArtistResponse> allArtists = spotifyService.searchArtistsByName(name);
+    
+    // LÓGICA DE PAGINACIÓN MANUAL
+    int start = (int) pageable.getOffset();
+    int end = Math.min((start + pageable.getPageSize()), allArtists.size());
+    
+    List<ArtistResponse> pageContent = start < allArtists.size() 
+        ? allArtists.subList(start, end) 
+        : List.of();
+    
+    Page<ArtistResponse> page = new PageImpl<>(pageContent, pageable, allArtists.size());
+    
+    log.info("✅ Returning {} artists (total: {}, page: {}/{})", 
+        pageContent.size(), 
+        allArtists.size(), 
+        pageable.getPageNumber() + 1,
+        page.getTotalPages());
+    
+    return ResponseEntity.ok(page);
+}
     
     @Operation(
         summary = "Obtener información de artista por ID",

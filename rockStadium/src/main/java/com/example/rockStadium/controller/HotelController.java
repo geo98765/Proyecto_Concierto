@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;  // ← ESTE ES EL IMPORTANTE
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/hotels")
+@RequestMapping("/api/v1/hotels")
 @RequiredArgsConstructor
 @Tag(name = "Hoteles", description = "Búsqueda de hoteles cercanos a venues de conciertos")
 public class HotelController {

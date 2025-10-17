@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/parking")
+@RequestMapping("/api/v1/parking")
 @RequiredArgsConstructor
 @Tag(name = "Estacionamientos", description = "Endpoints para estacionamientos cercanos")
 public class ParkingController {

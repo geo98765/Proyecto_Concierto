@@ -11,18 +11,28 @@ import com.example.rockStadium.model.FavoriteArtist;
 @Repository
 public interface FavoriteArtistRepository extends JpaRepository<FavoriteArtist, Integer> {
     
-    // Obtener todos los artistas favoritos de un perfil
+    /**
+     * Get all favorite artists for a profile
+     */
     List<FavoriteArtist> findByProfileProfileId(Integer profileId);
     
-    // Verificar si un artista ya es favorito
+    /**
+     * Check if artist is already favorite
+     */
     boolean existsByProfileProfileIdAndArtistArtistId(Integer profileId, Integer artistId);
     
-    // Encontrar relación específica
+    /**
+     * Find specific favorite artist relationship
+     */
     Optional<FavoriteArtist> findByProfileProfileIdAndArtistArtistId(Integer profileId, Integer artistId);
     
-    // Contar artistas favoritos de un perfil
+    /**
+     * Count favorite artists for a profile
+     */
     long countByProfileProfileId(Integer profileId);
     
-    // Eliminar por perfil y artista
+    /**
+     * Delete favorite artist relationship
+     */
     void deleteByProfileProfileIdAndArtistArtistId(Integer profileId, Integer artistId);
 }

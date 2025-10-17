@@ -11,6 +11,11 @@ import lombok.NoArgsConstructor;
 
 /**
  * DTO para respuesta de búsqueda de lugares cercanos desde SerpApi
+ * ACTUALIZADO: Incluye place_results para resultados únicos directos
+ * 
+ * IMPORTANTE: SerpAPI puede devolver:
+ * - local_results: array de lugares (búsquedas múltiples)
+ * - place_results: un solo lugar (búsqueda directa)
  */
 @Data
 @Builder
@@ -18,8 +23,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NearbySearchResponse {
     
+    // Cuando hay múltiples resultados de búsqueda
     @SerializedName("local_results")
     private List<NearbyPlaceDto> localResults;
+    
+    // Cuando SerpAPI devuelve un resultado único directo
+    @SerializedName("place_results")
+    private NearbyPlaceDto placeResults;
     
     @SerializedName("search_metadata")
     private SearchMetadata searchMetadata;

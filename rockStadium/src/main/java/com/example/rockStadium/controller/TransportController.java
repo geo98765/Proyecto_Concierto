@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/transport")
+@RequestMapping("/api/v1/transport")
 @RequiredArgsConstructor
 @Tag(name = "Transporte Público", description = "Opciones de transporte público cerca de venues")
 public class TransportController {

@@ -56,16 +56,23 @@ public class VenueServiceImpl implements VenueService {
             // Buscar el venue por nombre/query
             NearbySearchResponse searchResponse = serpApiService.searchVenuesByQuery(query);
             
-            // Validar que hay resultados
-            if (searchResponse == null || searchResponse.getLocalResults() == null 
-                    || searchResponse.getLocalResults().isEmpty()) {
+            NearbyPlaceDto venue = null;
+            
+            // CASO 1: Verificar si hay un resultado directo en place_results
+            if (searchResponse.getPlaceResults() != null) {
+                venue = searchResponse.getPlaceResults();
+                log.info("✅ Venue encontrado en place_results (resultado único): {}", venue.getTitle());
+            }
+            // CASO 2: Buscar en local_results (lista de resultados)
+            else if (searchResponse.getLocalResults() != null && !searchResponse.getLocalResults().isEmpty()) {
+                venue = searchResponse.getLocalResults().get(0);
+                log.info("✅ Venue encontrado en local_results (lista): {}", venue.getTitle());
+            }
+            // CASO 3: No se encontró nada
+            else {
                 log.warn("⚠️  No se encontró información para: {}", query);
                 throw new RuntimeException("No se encontró el venue: " + query);
             }
-            
-            // Tomar el primer resultado (el más relevante)
-            NearbyPlaceDto venue = searchResponse.getLocalResults().get(0);
-            log.info("✅ Venue encontrado: {}", venue.getTitle());
             
             // Convertir NearbyPlaceDto a PlaceInfoResponse.PlaceDetail
             PlaceInfoResponse.PlaceDetail detail = PlaceInfoResponse.PlaceDetail.builder()
@@ -127,9 +134,8 @@ public class VenueServiceImpl implements VenueService {
     
     @Override
     public NearbySearchResponse getHotelsNearVenue(String placeId, Integer radius) {
-        log.info("Obteniendo hoteles cerca del venue: {}", placeId);
+        log.info("Obteniendo hoteles cerca del venue: {} con radio: {}m", placeId, radius);
         try {
-            // Primero obtenemos los detalles del venue para obtener sus coordenadas
             PlaceInfoResponse venueDetails = getVenueDetailsByPlaceId(placeId);
             
             if (venueDetails.getLocalResults() == null || venueDetails.getLocalResults().isEmpty()) {
@@ -155,7 +161,7 @@ public class VenueServiceImpl implements VenueService {
     
     @Override
     public NearbySearchResponse getRestaurantsNearVenue(String placeId, Integer radius) {
-        log.info("Obteniendo restaurantes cerca del venue: {}", placeId);
+        log.info("Obteniendo restaurantes cerca del venue: {} con radio: {}m", placeId, radius);
         try {
             PlaceInfoResponse venueDetails = getVenueDetailsByPlaceId(placeId);
             

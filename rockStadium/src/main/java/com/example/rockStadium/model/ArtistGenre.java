@@ -34,7 +34,4 @@ public class ArtistGenre {
     @JoinColumn(name = "music_genre_id")
     private MusicGenre musicGenre;
     
-    // REMOVIDO: Esta relación causaba recursión infinita
-    // @OneToMany(mappedBy = "artistGenre", cascade = CascadeType.ALL)
-    // private List<Artist> artists;
 }

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * DTO para un lugar individual en búsquedas cercanas de SerpApi
+ * ACTUALIZADO: Más robusto para manejar diferentes respuestas de SerpAPI
  */
 @Data
 @Builder
@@ -21,8 +22,9 @@ public class NearbyPlaceDto {
     
     private Integer position;
     
-    // SerpApi usa "title" no "name"
+    // SerpApi puede usar "title" o "name"
     private String title;
+    private String name;
     
     @SerializedName("place_id")
     private String placeId;
@@ -36,7 +38,10 @@ public class NearbyPlaceDto {
     private BigDecimal rating;
     private Integer reviews;
     private String price;
-    private String type;
+    
+    // IMPORTANTE: type puede venir como String o Array
+    // Usamos @SerializedName para capturar ambos "type" y "types"
+    @SerializedName(value = "types", alternate = {"type"})
     private List<String> types;
     
     @SerializedName("type_id")
@@ -67,6 +72,16 @@ public class NearbyPlaceDto {
     
     @SerializedName("photos_link")
     private String photosLink;
+    
+    // Método helper para obtener el título (puede venir como "title" o "name")
+    public String getTitle() {
+        return title != null ? title : name;
+    }
+    
+    // Método helper para obtener el primer tipo como String (si existe)
+    public String getType() {
+        return (types != null && !types.isEmpty()) ? types.get(0) : null;
+    }
     
     // Clase interna para coordenadas GPS
     @Data

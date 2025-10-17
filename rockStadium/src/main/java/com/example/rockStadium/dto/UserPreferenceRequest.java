@@ -9,16 +9,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Request DTO for updating user preferences
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPreferenceRequest {
     
-    @DecimalMin(value = "5.0", message = "El radio mínimo es 5 km")
-    @DecimalMax(value = "50.0", message = "El radio máximo es 50 km")
+    @DecimalMin(value = "5.0", message = "Minimum search radius is 5 km")
+    @DecimalMax(value = "30.0", message = "Maximum search radius is 30 km")
     private BigDecimal searchRadiusKm;
     
     private Boolean emailNotifications;
-    private Boolean pushNotifications;
 }

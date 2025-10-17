@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/venues")
+@RequestMapping("/api/v1/venues")
 @RequiredArgsConstructor
 @Tag(name = "Venues (Recintos)", description = "Búsqueda de recintos de conciertos y servicios cercanos")
 public class VenueController {
