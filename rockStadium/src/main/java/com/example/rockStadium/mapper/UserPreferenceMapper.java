@@ -10,26 +10,26 @@ import com.example.rockStadium.dto.UserPreferenceResponse;
 import com.example.rockStadium.model.Artist;
 import com.example.rockStadium.model.MusicGenre;
 import com.example.rockStadium.model.UserPreference;
-import com.example.rockStadium.service.SpotifyService;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Mapper for UserPreference entities and DTOs
+ * This mapper ONLY does simple entity-to-DTO conversions
+ * Business logic (like enriching with Spotify data) belongs in the Service layer
  */
 @Component
-@RequiredArgsConstructor
-@Slf4j
 public class UserPreferenceMapper {
     
-    private final SpotifyService spotifyService;
-    
-    private static final int MAX_FAVORITE_ARTISTS = 50;
+    private static final int MAX_FAVORITE_ARTISTS = 40;
     private static final int MAX_FAVORITE_GENRES = 30;
     
     /**
      * Convert UserPreference entity to Response DTO
+     * Convierte entidad UserPreference a DTO de respuesta
+     * 
+     * @param preference The user preference entity
+     * @param artists List of artist responses (already mapped/enriched)
+     * @param genres List of genre responses (already mapped)
+     * @return UserPreferenceResponse DTO
      */
     public UserPreferenceResponse toResponse(UserPreference preference, 
                                              List<ArtistResponse> artists,
@@ -49,42 +49,42 @@ public class UserPreferenceMapper {
     }
     
     /**
-     * Convert Artist entity to Response DTO
-     * Attempts to fetch fresh data from Spotify if available
+     * Convert Artist entity to basic Response DTO (from database only)
+     * Convierte entidad Artist a DTO básico (solo datos de BD)
+     * 
+     * This is a simple mapping - no external API calls
+     * For enriched data with Spotify info, use the Service layer
+     * 
+     * @param artist The artist entity
+     * @return ArtistResponse DTO with basic information
      */
     public ArtistResponse toArtistResponse(Artist artist) {
-        // Try to get fresh data from Spotify
-        if (artist.getSpotifyId() != null) {
-            try {
-                return spotifyService.getArtistById(artist.getSpotifyId());
-            } catch (Exception e) {
-                log.warn("Failed to fetch Spotify info for artist: {} - Error: {}", 
-                    artist.getSpotifyId(), e.getMessage());
-            }
+        if (artist == null) {
+            return null;
         }
         
-        // Fallback to database data
-        return buildFallbackArtistResponse(artist);
-    }
-    
-    /**
-     * Convert MusicGenre entity to Response DTO
-     */
-    public MusicGenreResponse toGenreResponse(MusicGenre genre) {
-        return MusicGenreResponse.builder()
-                .musicGenreId(genre.getMusicGenreId())
-                .name(genre.getName())
-                .description(genre.getDescription())
+        return ArtistResponse.builder()
+                .spotifyId(artist.getSpotifyId())
+                .name(artist.getName())
                 .build();
     }
     
     /**
-     * Build fallback artist response from database data
+     * Convert MusicGenre entity to Response DTO
+     * Convierte entidad MusicGenre a DTO de respuesta
+     * 
+     * @param genre The music genre entity
+     * @return MusicGenreResponse DTO
      */
-    private ArtistResponse buildFallbackArtistResponse(Artist artist) {
-        return ArtistResponse.builder()
-                .spotifyId(artist.getSpotifyId())
-                .name(artist.getName())
+    public MusicGenreResponse toGenreResponse(MusicGenre genre) {
+        if (genre == null) {
+            return null;
+        }
+        
+        return MusicGenreResponse.builder()
+                .musicGenreId(genre.getMusicGenreId())
+                .name(genre.getName())
+                .description(genre.getDescription())
                 .build();
     }
 }

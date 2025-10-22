@@ -26,154 +26,159 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
-@Tag(name = "Usuarios", description = "Gestión de usuarios y autenticación")
+@Slf4j
+@Tag(name = "Users", description = "User management and authentication endpoints")
 public class UserController {
     
     private final UserService userService;
     
     @Operation(
-        summary = "Registrar nuevo usuario",
-        description = "Crea una nueva cuenta de usuario con perfil y ubicación.\n\n" +
-                "**Reglas de validación:**\n" +
-                "- Email único en el sistema\n" +
-                "- Contraseña mínimo 8 caracteres\n" +
-                "- Contraseña debe contener al menos una mayúscula y un número\n" +
-                "- Ubicación válida (formato: Ciudad, Estado, País)"
+        summary = "Register new user",
+        description = "Creates a new user account with profile and location.\n\n" +
+                "**Validation rules:**\n" +
+                "- Email must be unique in the system\n" +
+                "- Password minimum 8 characters\n" +
+                "- Password must contain at least one uppercase letter and one number\n" +
+                "- Valid location (format: City, State, Country)"
     )
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "201",
-            description = "Usuario registrado exitosamente",
+            description = "User registered successfully",
             content = @Content(schema = @Schema(implementation = UserResponse.class))
         ),
-        @ApiResponse(responseCode = "400", description = "Datos inválidos o email ya registrado"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+        @ApiResponse(responseCode = "400", description = "Invalid data or email already registered"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                description = "Datos del nuevo usuario",
+                description = "New user data",
                 required = true,
                 content = @Content(schema = @Schema(implementation = UserRequest.class))
             )
             @Valid @RequestBody UserRequest request) {
+        log.info("📝 Registering new user: {}", request.getEmail());
         UserResponse response = userService.registerUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
     
     @Operation(
-        summary = "Iniciar sesión",
-        description = "Autentica un usuario y crea una sesión activa.\n\n" +
-                "Retorna la información del usuario y su perfil."
+        summary = "Login",
+        description = "Authenticates a user and creates an active session.\n\n" +
+                "Returns user information and profile."
     )
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Login exitoso",
+            description = "Login successful",
             content = @Content(schema = @Schema(implementation = UserResponse.class))
         ),
-        @ApiResponse(responseCode = "401", description = "Credenciales inválidas"),
-        @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+        @ApiResponse(responseCode = "401", description = "Invalid credentials"),
+        @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PostMapping("/login")
     public ResponseEntity<UserResponse> login(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                description = "Credenciales de acceso",
+                description = "Login credentials",
                 required = true
             )
             @Valid @RequestBody LoginRequest request) {
+        log.info("🔐 Login attempt for: {}", request.getEmail());
         UserResponse response = userService.login(request);
         return ResponseEntity.ok(response);
     }
     
     @Operation(
-        summary = "Cerrar sesión",
-        description = "Finaliza la sesión activa del usuario e invalida el token de autenticación."
+        summary = "Logout",
+        description = "Ends the user's active session and invalidates the authentication token."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "204", description = "Sesión cerrada exitosamente"),
-        @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+        @ApiResponse(responseCode = "204", description = "Logout successful"),
+        @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PostMapping("/{userId}/logout")
     public ResponseEntity<Void> logout(
-            @Parameter(description = "ID del usuario", example = "1", required = true)
+            @Parameter(description = "User ID", example = "1", required = true)
             @PathVariable Integer userId) {
+        log.info("👋 Logout request for user ID: {}", userId);
         userService.logout(userId);
         return ResponseEntity.noContent().build();
     }
     
     @Operation(
-        summary = "Cambiar contraseña",
-        description = "Actualiza la contraseña del usuario desde una sesión activa.\n\n" +
-                "**Reglas:**\n" +
-                "- Contraseña anterior debe ser correcta\n" +
-                "- Nueva contraseña mínimo 8 caracteres\n" +
-                "- Debe contener al menos una mayúscula y un número"
+        summary = "Change password",
+        description = "Updates the user's password.\n\n" +
+                "Requires the old password for verification."
     )
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Contraseña actualizada exitosamente"
+            description = "Password changed successfully"
         ),
-        @ApiResponse(responseCode = "400", description = "Contraseña anterior incorrecta o nueva contraseña inválida"),
-        @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+        @ApiResponse(responseCode = "400", description = "Incorrect old password"),
+        @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PutMapping("/{userId}/password")
     public ResponseEntity<UserResponse> changePassword(
-            @Parameter(description = "ID del usuario", example = "1", required = true)
+            @Parameter(description = "User ID", example = "1", required = true)
             @PathVariable Integer userId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                description = "Contraseña anterior y nueva contraseña"
+                description = "Password update data"
             )
             @Valid @RequestBody UpdatePasswordRequest request) {
+        log.info("🔑 Password change request for user ID: {}", userId);
         UserResponse response = userService.changePassword(userId, request);
         return ResponseEntity.ok(response);
     }
     
     @Operation(
-        summary = "Actualizar perfil",
-        description = "Modifica la información del perfil del usuario: nombre, email o ubicación.\n\n" +
-                "**Nota:** Si se cambia el email, debe ser único en el sistema."
+        summary = "Update profile",
+        description = "Updates user profile information.\n\n" +
+                "All fields are optional. Only provided fields will be updated."
     )
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Perfil actualizado exitosamente"
+            description = "Profile updated successfully"
         ),
-        @ApiResponse(responseCode = "400", description = "Email ya está registrado o datos inválidos"),
-        @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+        @ApiResponse(responseCode = "400", description = "Email already registered or invalid data"),
+        @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PutMapping("/{userId}/profile")
     public ResponseEntity<UserResponse> updateProfile(
-            @Parameter(description = "ID del usuario", example = "1", required = true)
+            @Parameter(description = "User ID", example = "1", required = true)
             @PathVariable Integer userId,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                description = "Datos a actualizar (todos opcionales)"
+                description = "Data to update (all optional)"
             )
             @Valid @RequestBody UpdateProfileRequest request) {
+        log.info("✏️ Profile update request for user ID: {}", userId);
         UserResponse response = userService.updateProfile(userId, request);
         return ResponseEntity.ok(response);
     }
     
     @Operation(
-        summary = "Obtener usuario por ID",
-        description = "Retorna la información completa del usuario incluyendo su perfil y ubicación."
+        summary = "Get user by ID",
+        description = "Returns complete user information including profile and location."
     )
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Usuario encontrado"
+            description = "User found"
         ),
-        @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+        @ApiResponse(responseCode = "404", description = "User not found")
     })
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUserById(
-            @Parameter(description = "ID del usuario", example = "1", required = true)
+            @Parameter(description = "User ID", example = "1", required = true)
             @PathVariable Integer userId) {
+        log.info("👤 Fetching user by ID: {}", userId);
         UserResponse response = userService.getUserById(userId);
         return ResponseEntity.ok(response);
     }

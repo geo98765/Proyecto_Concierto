@@ -2,6 +2,9 @@ package com.example.rockStadium.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.example.rockStadium.dto.AddFavoriteGenreRequest;
 import com.example.rockStadium.dto.ArtistResponse;
 import com.example.rockStadium.dto.DeleteFavoriteGenreRequest;
@@ -42,9 +45,10 @@ public interface UserPreferenceService {
     SuccessResponse removeFavoriteArtist(Integer userId, Integer artistId);
     
     /**
-     * Get all favorite artists
+     * Get all favorite artists with pagination
+     * Obtener todos los artistas favoritos con paginación
      */
-    List<ArtistResponse> getFavoriteArtists(Integer userId);
+    Page<ArtistResponse> getFavoriteArtists(Integer userId, Pageable pageable);
     
     // ===== FAVORITE GENRES =====
     
@@ -61,12 +65,14 @@ public interface UserPreferenceService {
     SuccessResponse removeFavoriteGenre(Integer userId, DeleteFavoriteGenreRequest request);
     
     /**
-     * Get all favorite genres
+     * Get all favorite genres with pagination
+     * Obtener todos los géneros favoritos con paginación
      */
-    List<MusicGenreResponse> getFavoriteGenres(Integer userId);
+    Page<MusicGenreResponse> getFavoriteGenres(Integer userId, Pageable pageable);
     
     /**
-     * Get all available genres
+     * Get all available music genres
+     * Obtener todos los géneros musicales disponibles
      */
     List<MusicGenreResponse> getAllGenres();
 }
