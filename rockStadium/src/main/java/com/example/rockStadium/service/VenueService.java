@@ -1,52 +1,96 @@
 package com.example.rockStadium.service;
 
-import com.example.rockStadium.dto.NearbySearchResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.example.rockStadium.dto.NearbyPlaceDto;
 import com.example.rockStadium.dto.PlaceInfoResponse;
 
+/**
+ * Interfaz de servicio para gestión de venues (recintos de conciertos)
+ * Maneja búsqueda de venues y servicios cercanos con paginación
+ */
 public interface VenueService {
     
-    // ====== MÉTODOS DE BÚSQUEDA EN GOOGLE MAPS ======
+    // ====== MÉTODOS DE BÚSQUEDA DE VENUES ======
     
     /**
-     * Buscar venues en Google Maps por nombre o query
+     * Buscar venues en Google Maps por nombre o query con paginación
+     * 
+     * @param query Nombre del venue o términos de búsqueda
+     * @param pageable Configuración de paginación
+     * @return Página con venues encontrados
      */
-    NearbySearchResponse searchVenuesInGoogleMaps(String query);
+    Page<NearbyPlaceDto> searchVenuesInGoogleMaps(String query, Pageable pageable);
     
     /**
-     * Buscar venues por ubicación geográfica
+     * Buscar venues por ubicación geográfica con paginación
+     * 
+     * @param lat Latitud
+     * @param lng Longitud  
+     * @param query Tipo de lugar a buscar (ej: "concert venue")
+     * @param pageable Configuración de paginación
+     * @return Página con venues cercanos
      */
-    NearbySearchResponse searchVenuesByLocation(Double lat, Double lng, String query);
+    Page<NearbyPlaceDto> searchVenuesByLocation(Double lat, Double lng, String query, Pageable pageable);
     
     /**
      * Obtener detalles de un venue por query/nombre
-     * (Actualizado para usar búsqueda en lugar de Place ID)
+     * (SIN paginación - resultado único)
+     * 
+     * @param query Nombre del venue o query de búsqueda
+     * @return Información detallada del venue
      */
     PlaceInfoResponse getVenueDetails(String query);
     
     /**
-     * Encontrar venues cercanos a una ubicación
+     * Encontrar venues cercanos a una ubicación con paginación
+     * 
+     * @param lat Latitud de ubicación central
+     * @param lng Longitud de ubicación central
+     * @param radius Radio de búsqueda en metros
+     * @param pageable Configuración de paginación
+     * @return Página con venues cercanos
      */
-    NearbySearchResponse findVenuesNearby(Double lat, Double lng, Integer radius);
+    Page<NearbyPlaceDto> findVenuesNearby(Double lat, Double lng, Integer radius, Pageable pageable);
     
-    // ====== MÉTODOS PARA OBTENER SERVICIOS CERCA DE UN VENUE ======
-    
-    /**
-     * Obtener hoteles cerca de un venue (identificado por Place ID)
-     */
-    NearbySearchResponse getHotelsNearVenue(String placeId, Integer radius);
-    
-    /**
-     * Obtener restaurantes cerca de un venue
-     */
-    NearbySearchResponse getRestaurantsNearVenue(String placeId, Integer radius);
+    // ====== MÉTODOS DE SERVICIOS CERCANOS ======
     
     /**
-     * Obtener estacionamientos cerca de un venue
+     * Obtener hoteles cerca de un venue con paginación
+     * 
+     * @param placeId Nombre del venue o Place ID
+     * @param radius Radio de búsqueda en metros
+     * @param pageable Configuración de paginación
+     * @return Página con hoteles cercanos
      */
-    NearbySearchResponse getParkingNearVenue(String placeId);
+    Page<NearbyPlaceDto> getHotelsNearVenue(String placeId, Integer radius, Pageable pageable);
     
     /**
-     * Obtener transporte público cerca de un venue
+     * Obtener restaurantes cerca de un venue con paginación
+     * 
+     * @param placeId Nombre del venue o Place ID
+     * @param radius Radio de búsqueda en metros
+     * @param pageable Configuración de paginación
+     * @return Página con restaurantes cercanos
      */
-    NearbySearchResponse getTransportNearVenue(String placeId);
+    Page<NearbyPlaceDto> getRestaurantsNearVenue(String placeId, Integer radius, Pageable pageable);
+    
+    /**
+     * Obtener estacionamientos cerca de un venue con paginación
+     * 
+     * @param placeId Nombre del venue o Place ID
+     * @param pageable Configuración de paginación
+     * @return Página con estacionamientos cercanos
+     */
+    Page<NearbyPlaceDto> getParkingNearVenue(String placeId, Pageable pageable);
+    
+    /**
+     * Obtener transporte público cerca de un venue con paginación
+     * 
+     * @param placeId Nombre del venue o Place ID
+     * @param pageable Configuración de paginación
+     * @return Página con opciones de transporte cercanas
+     */
+    Page<NearbyPlaceDto> getTransportNearVenue(String placeId, Pageable pageable);
 }

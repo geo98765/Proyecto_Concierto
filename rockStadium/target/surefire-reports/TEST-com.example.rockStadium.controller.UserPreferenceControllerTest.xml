@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.example.rockStadium.controller.UserPreferenceControllerTest" time="6.092" tests="11" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.example.rockStadium.controller.UserPreferenceControllerTest" time="5.754" tests="14" errors="0" skipped="0" failures="3">
   <properties>
     <property name="java.specification.version" value="20"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -17,7 +17,7 @@
     <property name="user.country" value="MX"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-20\bin"/>
-    <property name="sun.java.command" value="C:\Users\Asus Tuf F17\AppData\Local\Temp\surefire4180003231305710788\surefirebooter-20251016125820902_3.jar C:\Users\Asus Tuf F17\AppData\Local\Temp\surefire4180003231305710788 2025-10-16T12-58-20_694-jvmRun1 surefire-20251016125820902_1tmp surefire_0-20251016125820902_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\Asus Tuf F17\AppData\Local\Temp\surefire2752074990985045144\surefirebooter-20251023162855768_3.jar C:\Users\Asus Tuf F17\AppData\Local\Temp\surefire2752074990985045144 2025-10-23T16-28-55_530-jvmRun1 surefire-20251023162855768_1tmp surefire_0-20251023162855768_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="test" value="com.example.rockStadium.controller.UserPreferenceControllerTest"/>
     <property name="surefire.test.class.path" value="C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\target\test-classes;C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\target\classes;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-starter-validation\3.5.6\spring-boot-starter-validation-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-starter\3.5.6\spring-boot-starter-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot\3.5.6\spring-boot-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\3.5.6\spring-boot-autoconfigure-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-starter-logging\3.5.6\spring-boot-starter-logging-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\ch\qos\logback\logback-classic\1.5.18\logback-classic-1.5.18.jar;C:\Users\Asus Tuf F17\.m2\repository\ch\qos\logback\logback-core\1.5.18\logback-core-1.5.18.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\logging\log4j\log4j-to-slf4j\2.24.3\log4j-to-slf4j-2.24.3.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\logging\log4j\log4j-api\2.24.3\log4j-api-2.24.3.jar;C:\Users\Asus Tuf F17\.m2\repository\org\slf4j\jul-to-slf4j\2.0.17\jul-to-slf4j-2.0.17.jar;C:\Users\Asus Tuf F17\.m2\repository\org\yaml\snakeyaml\2.4\snakeyaml-2.4.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\tomcat\embed\tomcat-embed-el\10.1.46\tomcat-embed-el-10.1.46.jar;C:\Users\Asus Tuf F17\.m2\repository\org\hibernate\validator\hibernate-validator\8.0.3.Final\hibernate-validator-8.0.3.Final.jar;C:\Users\Asus Tuf F17\.m2\repository\jakarta\validation\jakarta.validation-api\3.0.2\jakarta.validation-api-3.0.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\jboss\logging\jboss-logging\3.6.1.Final\jboss-logging-3.6.1.Final.jar;C:\Users\Asus Tuf F17\.m2\repository\com\fasterxml\classmate\1.7.0\classmate-1.7.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-starter-web\3.5.6\spring-boot-starter-web-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-starter-json\3.5.6\spring-boot-starter-json-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jdk8\2.19.2\jackson-datatype-jdk8-2.19.2.jar;C:\Users\Asus Tuf F17\.m2\repository\com\fasterxml\jackson\datatype\jackson-datatype-jsr310\2.19.2\jackson-datatype-jsr310-2.19.2.jar;C:\Users\Asus Tuf F17\.m2\repository\com\fasterxml\jackson\module\jackson-module-parameter-names\2.19.2\jackson-module-parameter-names-2.19.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-web\6.2.11\spring-web-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-beans\6.2.11\spring-beans-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\io\micrometer\micrometer-observation\1.15.4\micrometer-observation-1.15.4.jar;C:\Users\Asus Tuf F17\.m2\repository\io\micrometer\micrometer-commons\1.15.4\micrometer-commons-1.15.4.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-webmvc\6.2.11\spring-webmvc-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-aop\6.2.11\spring-aop-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-context\6.2.11\spring-context-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-expression\6.2.11\spring-expression-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\postgresql\postgresql\42.7.7\postgresql-42.7.7.jar;C:\Users\Asus Tuf F17\.m2\repository\org\checkerframework\checker-qual\3.49.3\checker-qual-3.49.3.jar;C:\Users\Asus Tuf F17\.m2\repository\org\projectlombok\lombok\1.18.40\lombok-1.18.40.jar;C:\Users\Asus Tuf F17\.m2\repository\com\squareup\okhttp3\okhttp\4.12.0\okhttp-4.12.0.jar;C:\Users\Asus Tuf F17\.m2\repository\com\squareup\okio\okio\3.6.0\okio-3.6.0.jar;C:\Users\Asus Tuf F17\.m2\repository\com\squareup\okio\okio-jvm\3.6.0\okio-jvm-3.6.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib-common\1.9.25\kotlin-stdlib-common-1.9.25.jar;C:\Users\Asus Tuf F17\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib-jdk8\1.9.25\kotlin-stdlib-jdk8-1.9.25.jar;C:\Users\Asus Tuf F17\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib\1.9.25\kotlin-stdlib-1.9.25.jar;C:\Users\Asus Tuf F17\.m2\repository\org\jetbrains\annotations\13.0\annotations-13.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\jetbrains\kotlin\kotlin-stdlib-jdk7\1.9.25\kotlin-stdlib-jdk7-1.9.25.jar;C:\Users\Asus Tuf F17\.m2\repository\com\google\code\gson\gson\2.13.2\gson-2.13.2.jar;C:\Users\Asus Tuf F17\.m2\repository\com\google\errorprone\error_prone_annotations\2.41.0\error_prone_annotations-2.41.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-starter-tomcat\3.5.6\spring-boot-starter-tomcat-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\jakarta\annotation\jakarta.annotation-api\2.1.1\jakarta.annotation-api-2.1.1.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\tomcat\embed\tomcat-embed-core\10.1.46\tomcat-embed-core-10.1.46.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\tomcat\embed\tomcat-embed-websocket\10.1.46\tomcat-embed-websocket-10.1.46.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-starter-test\3.5.6\spring-boot-starter-test-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-test\3.5.6\spring-boot-test-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-test-autoconfigure\3.5.6\spring-boot-test-autoconfigure-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\com\jayway\jsonpath\json-path\2.9.0\json-path-2.9.0.jar;C:\Users\Asus Tuf F17\.m2\repository\jakarta\xml\bind\jakarta.xml.bind-api\4.0.2\jakarta.xml.bind-api-4.0.2.jar;C:\Users\Asus Tuf F17\.m2\repository\jakarta\activation\jakarta.activation-api\2.1.4\jakarta.activation-api-2.1.4.jar;C:\Users\Asus Tuf F17\.m2\repository\net\minidev\json-smart\2.5.2\json-smart-2.5.2.jar;C:\Users\Asus Tuf F17\.m2\repository\net\minidev\accessors-smart\2.5.2\accessors-smart-2.5.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\ow2\asm\asm\9.7.1\asm-9.7.1.jar;C:\Users\Asus Tuf F17\.m2\repository\org\assertj\assertj-core\3.27.4\assertj-core-3.27.4.jar;C:\Users\Asus Tuf F17\.m2\repository\net\bytebuddy\byte-buddy\1.17.7\byte-buddy-1.17.7.jar;C:\Users\Asus Tuf F17\.m2\repository\org\awaitility\awaitility\4.2.2\awaitility-4.2.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\hamcrest\hamcrest\3.0\hamcrest-3.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\junit\jupiter\junit-jupiter\5.12.2\junit-jupiter-5.12.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.12.2\junit-jupiter-api-5.12.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\junit\platform\junit-platform-commons\1.12.2\junit-platform-commons-1.12.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.12.2\junit-jupiter-params-5.12.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.12.2\junit-jupiter-engine-5.12.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\junit\platform\junit-platform-engine\1.12.2\junit-platform-engine-1.12.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\mockito\mockito-core\5.17.0\mockito-core-5.17.0.jar;C:\Users\Asus Tuf F17\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.7\byte-buddy-agent-1.17.7.jar;C:\Users\Asus Tuf F17\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Asus Tuf F17\.m2\repository\org\mockito\mockito-junit-jupiter\5.17.0\mockito-junit-jupiter-5.17.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\skyscreamer\jsonassert\1.5.3\jsonassert-1.5.3.jar;C:\Users\Asus Tuf F17\.m2\repository\com\vaadin\external\google\android-json\0.0.20131108.vaadin1\android-json-0.0.20131108.vaadin1.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-core\6.2.11\spring-core-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-jcl\6.2.11\spring-jcl-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-test\6.2.11\spring-test-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\xmlunit\xmlunit-core\2.10.4\xmlunit-core-2.10.4.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springdoc\springdoc-openapi-starter-webmvc-ui\2.5.0\springdoc-openapi-starter-webmvc-ui-2.5.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springdoc\springdoc-openapi-starter-webmvc-api\2.5.0\springdoc-openapi-starter-webmvc-api-2.5.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springdoc\springdoc-openapi-starter-common\2.5.0\springdoc-openapi-starter-common-2.5.0.jar;C:\Users\Asus Tuf F17\.m2\repository\io\swagger\core\v3\swagger-core-jakarta\2.2.21\swagger-core-jakarta-2.2.21.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\commons\commons-lang3\3.17.0\commons-lang3-3.17.0.jar;C:\Users\Asus Tuf F17\.m2\repository\io\swagger\core\v3\swagger-annotations-jakarta\2.2.21\swagger-annotations-jakarta-2.2.21.jar;C:\Users\Asus Tuf F17\.m2\repository\io\swagger\core\v3\swagger-models-jakarta\2.2.21\swagger-models-jakarta-2.2.21.jar;C:\Users\Asus Tuf F17\.m2\repository\com\fasterxml\jackson\dataformat\jackson-dataformat-yaml\2.19.2\jackson-dataformat-yaml-2.19.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\webjars\swagger-ui\5.13.0\swagger-ui-5.13.0.jar;C:\Users\Asus Tuf F17\.m2\repository\se\michaelthelin\spotify\spotify-web-api-java\8.3.6\spotify-web-api-java-8.3.6.jar;C:\Users\Asus Tuf F17\.m2\repository\com\neovisionaries\nv-i18n\1.29\nv-i18n-1.29.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\httpcomponents\client5\httpclient5-cache\5.5\httpclient5-cache-5.5.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\httpcomponents\client5\httpclient5\5.5\httpclient5-5.5.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\httpcomponents\core5\httpcore5\5.3.5\httpcore5-5.3.5.jar;C:\Users\Asus Tuf F17\.m2\repository\org\apache\httpcomponents\core5\httpcore5-h2\5.3.5\httpcore5-h2-5.3.5.jar;C:\Users\Asus Tuf F17\.m2\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar;C:\Users\Asus Tuf F17\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.19.2\jackson-databind-2.19.2.jar;C:\Users\Asus Tuf F17\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.19.2\jackson-annotations-2.19.2.jar;C:\Users\Asus Tuf F17\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.19.2\jackson-core-2.19.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-starter-data-jpa\3.5.6\spring-boot-starter-data-jpa-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\boot\spring-boot-starter-jdbc\3.5.6\spring-boot-starter-jdbc-3.5.6.jar;C:\Users\Asus Tuf F17\.m2\repository\com\zaxxer\HikariCP\6.3.3\HikariCP-6.3.3.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-jdbc\6.2.11\spring-jdbc-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\hibernate\orm\hibernate-core\6.6.29.Final\hibernate-core-6.6.29.Final.jar;C:\Users\Asus Tuf F17\.m2\repository\jakarta\persistence\jakarta.persistence-api\3.1.0\jakarta.persistence-api-3.1.0.jar;C:\Users\Asus Tuf F17\.m2\repository\jakarta\transaction\jakarta.transaction-api\2.0.1\jakarta.transaction-api-2.0.1.jar;C:\Users\Asus Tuf F17\.m2\repository\org\hibernate\common\hibernate-commons-annotations\7.0.3.Final\hibernate-commons-annotations-7.0.3.Final.jar;C:\Users\Asus Tuf F17\.m2\repository\io\smallrye\jandex\3.2.0\jandex-3.2.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\glassfish\jaxb\jaxb-runtime\4.0.5\jaxb-runtime-4.0.5.jar;C:\Users\Asus Tuf F17\.m2\repository\org\glassfish\jaxb\jaxb-core\4.0.5\jaxb-core-4.0.5.jar;C:\Users\Asus Tuf F17\.m2\repository\org\eclipse\angus\angus-activation\2.0.2\angus-activation-2.0.2.jar;C:\Users\Asus Tuf F17\.m2\repository\org\glassfish\jaxb\txw2\4.0.5\txw2-4.0.5.jar;C:\Users\Asus Tuf F17\.m2\repository\com\sun\istack\istack-commons-runtime\4.1.2\istack-commons-runtime-4.1.2.jar;C:\Users\Asus Tuf F17\.m2\repository\jakarta\inject\jakarta.inject-api\2.0.1\jakarta.inject-api-2.0.1.jar;C:\Users\Asus Tuf F17\.m2\repository\org\antlr\antlr4-runtime\4.13.0\antlr4-runtime-4.13.0.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\data\spring-data-jpa\3.5.4\spring-data-jpa-3.5.4.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\data\spring-data-commons\3.5.4\spring-data-commons-3.5.4.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-orm\6.2.11\spring-orm-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-tx\6.2.11\spring-tx-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\springframework\spring-aspects\6.2.11\spring-aspects-6.2.11.jar;C:\Users\Asus Tuf F17\.m2\repository\org\aspectj\aspectjweaver\1.9.24\aspectjweaver-1.9.24.jar;"/>
@@ -35,7 +35,7 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="FILE_LOG_CHARSET" value="UTF-8"/>
     <property name="java.awt.headless" value="true"/>
-    <property name="surefire.real.class.path" value="C:\Users\Asus Tuf F17\AppData\Local\Temp\surefire4180003231305710788\surefirebooter-20251016125820902_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Asus Tuf F17\AppData\Local\Temp\surefire2752074990985045144\surefirebooter-20251023162855768_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="20.0.2+9-78"/>
@@ -54,7 +54,7 @@
     <property name="user.dir" value="C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="PID" value="25888"/>
+    <property name="PID" value="20316"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
     <property name="native.encoding" value="Cp1252"/>
@@ -67,9 +67,9 @@
     <property name="java.class.version" value="64.0"/>
     <property name="LOGGED_APPLICATION_NAME" value="[rockStadium] "/>
   </properties>
-  <testcase name="testUpdatePreferences_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.645">
-    <system-out><![CDATA[12:58:22.786 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.rockStadium.controller.UserPreferenceControllerTest]: UserPreferenceControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-12:58:23.148 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.rockStadium.RockStadiumApplication for test class com.example.rockStadium.controller.UserPreferenceControllerTest
+  <testcase name="testGetPreferences_WithFullFalse_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.319">
+    <system-out><![CDATA[16:28:57.308 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.rockStadium.controller.UserPreferenceControllerTest]: UserPreferenceControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:28:57.689 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.rockStadium.RockStadiumApplication for test class com.example.rockStadium.controller.UserPreferenceControllerTest
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -80,53 +80,209 @@
 
  :: Spring Boot ::                (v3.5.6)
 
-2025-10-16T12:58:23.923-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceControllerTest     : Starting UserPreferenceControllerTest using Java 20.0.2 with PID 25888 (started by Asus Tuf F17 in C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium)
-2025-10-16T12:58:23.926-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceControllerTest     : No active profile set, falling back to 1 default profile: "default"
-2025-10-16T12:58:27.661-06:00  INFO 25888 --- [rockStadium] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2025-10-16T12:58:27.661-06:00  INFO 25888 --- [rockStadium] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2025-10-16T12:58:27.664-06:00  INFO 25888 --- [rockStadium] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
-2025-10-16T12:58:27.711-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceControllerTest     : Started UserPreferenceControllerTest in 4.455 seconds (process running for 5.977)
-2025-10-16T12:58:28.205-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ⚙️ Actualizando preferencias del usuario: 1
+2025-10-23T16:28:58.521-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceControllerTest     : Starting UserPreferenceControllerTest using Java 20.0.2 with PID 20316 (started by Asus Tuf F17 in C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium)
+2025-10-23T16:28:58.524-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceControllerTest     : No active profile set, falling back to 1 default profile: "default"
+2025-10-23T16:29:01.939-06:00  INFO 20316 --- [rockStadium] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-10-23T16:29:01.940-06:00  INFO 20316 --- [rockStadium] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-10-23T16:29:01.943-06:00  INFO 20316 --- [rockStadium] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2025-10-23T16:29:01.981-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceControllerTest     : Started UserPreferenceControllerTest in 4.164 seconds (process running for 5.891)
+2025-10-23T16:29:02.146-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : 📋 Getting preferences for user: 1 (full: false)
 ]]></system-out>
   </testcase>
-  <testcase name="testRemoveFavoriteArtist_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.014">
-    <system-out><![CDATA[2025-10-16T12:58:28.384-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➖ Eliminando artista favorito del usuario: 1
+  <testcase name="testUpdatePreferences_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.171">
+    <system-out><![CDATA[2025-10-23T16:29:02.474-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ⚙️ Updating preferences for user: 1
 ]]></system-out>
   </testcase>
-  <testcase name="testAddFavoriteArtist_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.025">
-    <system-out><![CDATA[2025-10-16T12:58:28.413-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➕ Agregando artista favorito para usuario: 1
+  <testcase name="testGetFavoriteArtists_WithPagination_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.051">
+    <failure message="No value at JSON path &quot;$.content&quot;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: No value at JSON path "$.content"
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:351)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValue(JsonPathExpectationsHelper.java:106)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$value$0(JsonPathResultMatchers.java:88)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.example.rockStadium.controller.UserPreferenceControllerTest.testGetFavoriteArtists_WithPagination_Success(UserPreferenceControllerTest.java:247)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: com.jayway.jsonpath.PathNotFoundException: Expected to find an object with property ['content'] in path $ but found 'net.minidev.json.JSONArray'. This is not a json object according to the JsonProvider: 'com.jayway.jsonpath.spi.json.JsonSmartJsonProvider'.
+]]></failure>
+    <system-out><![CDATA[2025-10-23T16:29:02.505-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : 🎤 Getting favorite artists for user: 1 (page: 0, size: 10)
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/v1/users/1/preferences/artists
+       Parameters = {page=[0], pageSize=[10]}
+          Headers = [Accept:"application/json"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.example.rockStadium.controller.UserPreferenceController
+           Method = com.example.rockStadium.controller.UserPreferenceController#getFavoriteArtists(Integer, int, int)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = [{"spotifyId":"2ye2Wgw4gimLv2eAKyk1NB","name":"Metallica","genres":null,"popularity":null,"followers":null,"imageUrl":null,"externalUrl":null},{"spotifyId":"6mdiAmATAx73kdxrNrnlao","name":"Iron Maiden","genres":null,"popularity":null,"followers":null,"imageUrl":null,"externalUrl":null}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
 ]]></system-out>
   </testcase>
-  <testcase name="testGetFavoriteGenres_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.044">
-    <system-out><![CDATA[2025-10-16T12:58:28.432-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : 🎵 Obteniendo géneros favoritos del usuario: 1
+  <testcase name="testRemoveFavoriteArtist_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.025">
+    <system-out><![CDATA[2025-10-23T16:29:02.559-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➖ Removing favorite artist for user: 1
 ]]></system-out>
   </testcase>
-  <testcase name="testRemoveFavoriteGenre_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.032">
-    <system-out><![CDATA[2025-10-16T12:58:28.485-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➖ Eliminando género favorito del usuario: 1
+  <testcase name="testAddFavoriteArtist_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.026">
+    <system-out><![CDATA[2025-10-23T16:29:02.593-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➕ Adding favorite artist for user: 1
 ]]></system-out>
   </testcase>
-  <testcase name="testGetPreferences_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.02">
-    <system-out><![CDATA[2025-10-16T12:58:28.513-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : 📋 Obteniendo preferencias del usuario: 1
+  <testcase name="testAddFavoriteGenre_ByGenreName_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.024">
+    <system-out><![CDATA[2025-10-23T16:29:02.618-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➕ Adding favorite genre for user: 1
 ]]></system-out>
   </testcase>
-  <testcase name="testGetFavoriteArtists_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.016">
-    <system-out><![CDATA[2025-10-16T12:58:28.536-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : 🎸 Obteniendo artistas favoritos del usuario: 1
+  <testcase name="testAddFavoriteGenre_ByGenreId_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.014">
+    <system-out><![CDATA[2025-10-23T16:29:02.636-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➕ Adding favorite genre for user: 1
 ]]></system-out>
   </testcase>
-  <testcase name="testUpdatePreferences_InvalidRadiusTooLarge" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.036">
-    <system-out><![CDATA[2025-10-16T12:58:28.583-06:00  WARN 25888 --- [rockStadium] [           main] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [1] in public org.springframework.http.ResponseEntity<com.example.rockStadium.dto.UserPreferenceResponse> com.example.rockStadium.controller.UserPreferenceController.updatePreferences(java.lang.Integer,com.example.rockStadium.dto.UserPreferenceRequest): [Field error in object 'userPreferenceRequest' on field 'searchRadiusKm': rejected value [100.0]; codes [DecimalMax.userPreferenceRequest.searchRadiusKm,DecimalMax.searchRadiusKm,DecimalMax.java.math.BigDecimal,DecimalMax]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [userPreferenceRequest.searchRadiusKm,searchRadiusKm]; arguments []; default message [searchRadiusKm],true,50.0]; default message [El radio máximo es 50 km]] ]
+  <testcase name="testGetPreferences_WithFullTrue_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.02">
+    <system-out><![CDATA[2025-10-23T16:29:02.652-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : 📋 Getting preferences for user: 1 (full: true)
 ]]></system-out>
   </testcase>
-  <testcase name="testUpdatePreferences_InvalidRadiusTooSmall" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.029">
-    <system-out><![CDATA[2025-10-16T12:58:28.613-06:00  WARN 25888 --- [rockStadium] [           main] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [1] in public org.springframework.http.ResponseEntity<com.example.rockStadium.dto.UserPreferenceResponse> com.example.rockStadium.controller.UserPreferenceController.updatePreferences(java.lang.Integer,com.example.rockStadium.dto.UserPreferenceRequest): [Field error in object 'userPreferenceRequest' on field 'searchRadiusKm': rejected value [2.0]; codes [DecimalMin.userPreferenceRequest.searchRadiusKm,DecimalMin.searchRadiusKm,DecimalMin.java.math.BigDecimal,DecimalMin]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [userPreferenceRequest.searchRadiusKm,searchRadiusKm]; arguments []; default message [searchRadiusKm],true,5.0]; default message [El radio mínimo es 5 km]] ]
+  <testcase name="testRemoveFavoriteGenre_ByGenreId_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.02">
+    <system-out><![CDATA[2025-10-23T16:29:02.683-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➖ Removing favorite genre for user: 1
 ]]></system-out>
   </testcase>
-  <testcase name="testAddFavoriteGenre_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.027">
-    <system-out><![CDATA[2025-10-16T12:58:28.642-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➕ Agregando género favorito para usuario: 1
+  <testcase name="testGetAllGenres_WithPagination_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.018">
+    <failure message="No value at JSON path &quot;$.content&quot;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: No value at JSON path "$.content"
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:351)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValue(JsonPathExpectationsHelper.java:106)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$value$0(JsonPathResultMatchers.java:88)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.example.rockStadium.controller.UserPreferenceControllerTest.testGetAllGenres_WithPagination_Success(UserPreferenceControllerTest.java:485)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: com.jayway.jsonpath.PathNotFoundException: Expected to find an object with property ['content'] in path $ but found 'net.minidev.json.JSONArray'. This is not a json object according to the JsonProvider: 'com.jayway.jsonpath.spi.json.JsonSmartJsonProvider'.
+]]></failure>
+    <system-out><![CDATA[2025-10-23T16:29:02.698-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : 📚 Getting genres catalog (page: 0, size: 20)
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/v1/users/1/preferences/genres/available
+       Parameters = {page=[0], pageSize=[20]}
+          Headers = [Accept:"application/json"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.example.rockStadium.controller.UserPreferenceController
+           Method = com.example.rockStadium.controller.UserPreferenceController#getAllGenres(Integer, int, int)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = [{"musicGenreId":1,"name":"Rock","description":null},{"musicGenreId":2,"name":"Metal","description":null},{"musicGenreId":3,"name":"Pop","description":null},{"musicGenreId":4,"name":"Jazz","description":null},{"musicGenreId":5,"name":"Blues","description":null}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
 ]]></system-out>
   </testcase>
-  <testcase name="testGetAllGenres_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.015">
-    <system-out><![CDATA[2025-10-16T12:58:28.660-06:00  INFO 25888 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : 📚 Obteniendo catálogo de géneros
+  <testcase name="testGetFavoriteGenres_WithPagination_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.016">
+    <failure message="No value at JSON path &quot;$.content&quot;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: No value at JSON path "$.content"
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:351)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValue(JsonPathExpectationsHelper.java:106)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$value$0(JsonPathResultMatchers.java:88)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.example.rockStadium.controller.UserPreferenceControllerTest.testGetFavoriteGenres_WithPagination_Success(UserPreferenceControllerTest.java:338)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: com.jayway.jsonpath.PathNotFoundException: Expected to find an object with property ['content'] in path $ but found 'net.minidev.json.JSONArray'. This is not a json object according to the JsonProvider: 'com.jayway.jsonpath.spi.json.JsonSmartJsonProvider'.
+]]></failure>
+    <system-out><![CDATA[2025-10-23T16:29:02.722-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : 🎵 Getting favorite genres for user: 1 (page: 0, size: 10)
+
+MockHttpServletRequest:
+      HTTP Method = GET
+      Request URI = /api/v1/users/1/preferences/genres
+       Parameters = {page=[0], pageSize=[10]}
+          Headers = [Accept:"application/json"]
+             Body = null
+    Session Attrs = {}
+
+Handler:
+             Type = com.example.rockStadium.controller.UserPreferenceController
+           Method = com.example.rockStadium.controller.UserPreferenceController#getFavoriteGenres(Integer, int, int)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json"]
+     Content type = application/json
+             Body = [{"musicGenreId":1,"name":"Rock","description":null},{"musicGenreId":2,"name":"Metal","description":null}]
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  </testcase>
+  <testcase name="testUpdatePreferences_InvalidRadiusTooLarge" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.041">
+    <system-out><![CDATA[2025-10-23T16:29:02.762-06:00 ERROR 20316 --- [rockStadium] [           main] c.e.r.controller.RestExceptionHandler    : Validation error: Validation failed for argument [1] in public org.springframework.http.ResponseEntity<com.example.rockStadium.dto.UserPreferenceBasicResponse> com.example.rockStadium.controller.UserPreferenceController.updatePreferences(java.lang.Integer,com.example.rockStadium.dto.UserPreferenceRequest): [Field error in object 'userPreferenceRequest' on field 'searchRadiusKm': rejected value [100.0]; codes [DecimalMax.userPreferenceRequest.searchRadiusKm,DecimalMax.searchRadiusKm,DecimalMax.java.math.BigDecimal,DecimalMax]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [userPreferenceRequest.searchRadiusKm,searchRadiusKm]; arguments []; default message [searchRadiusKm],true,30.0]; default message [Maximum search radius is 30 km]] 
+]]></system-out>
+  </testcase>
+  <testcase name="testUpdatePreferences_InvalidRadiusTooSmall" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.011">
+    <system-out><![CDATA[2025-10-23T16:29:02.783-06:00 ERROR 20316 --- [rockStadium] [           main] c.e.r.controller.RestExceptionHandler    : Validation error: Validation failed for argument [1] in public org.springframework.http.ResponseEntity<com.example.rockStadium.dto.UserPreferenceBasicResponse> com.example.rockStadium.controller.UserPreferenceController.updatePreferences(java.lang.Integer,com.example.rockStadium.dto.UserPreferenceRequest): [Field error in object 'userPreferenceRequest' on field 'searchRadiusKm': rejected value [2.0]; codes [DecimalMin.userPreferenceRequest.searchRadiusKm,DecimalMin.searchRadiusKm,DecimalMin.java.math.BigDecimal,DecimalMin]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [userPreferenceRequest.searchRadiusKm,searchRadiusKm]; arguments []; default message [searchRadiusKm],true,5.0]; default message [Minimum search radius is 5 km]] 
+]]></system-out>
+  </testcase>
+  <testcase name="testRemoveFavoriteGenre_ByGenreName_Success" classname="com.example.rockStadium.controller.UserPreferenceControllerTest" time="0.011">
+    <system-out><![CDATA[2025-10-23T16:29:02.797-06:00  INFO 20316 --- [rockStadium] [           main] c.e.r.c.UserPreferenceController         : ➖ Removing favorite genre for user: 1
 ]]></system-out>
   </testcase>
 </testsuite>

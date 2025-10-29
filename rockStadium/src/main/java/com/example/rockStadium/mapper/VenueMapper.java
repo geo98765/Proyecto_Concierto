@@ -1,82 +1,163 @@
 package com.example.rockStadium.mapper;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
-import com.example.rockStadium.dto.VenueRequest;
-import com.example.rockStadium.dto.VenueResponse;
-import com.example.rockStadium.dto.WeatherResponse;
-import com.example.rockStadium.model.Venue;
+import com.example.rockStadium.dto.NearbyPlaceDto;
+import com.example.rockStadium.dto.NearbySearchResponse;
+import com.example.rockStadium.dto.PlaceInfoResponse;
 
+/**
+ * Mapper para conversiones de DTOs relacionados con Venues
+ * Este mapper SOLO hace conversiones simples de DTOs
+ * La lógica de negocio pertenece a la capa Service
+ */
 @Component
 public class VenueMapper {
     
     /**
-     * Convierte VenueRequest a entidad Venue
+     * Convierte NearbyPlaceDto a PlaceInfoResponse.PlaceDetail
+     * Mapea información básica de un lugar desde SerpApi a formato de respuesta detallada
+     * 
+     * @param nearbyPlace DTO de SerpApi con información del lugar
+     * @return PlaceDetail con información completa del lugar
      */
-    public Venue toEntity(VenueRequest request) {
-        return Venue.builder()
-                .name(request.getName())
-                .city(request.getCity())
-                .latitude(request.getLatitude())
-                .longitude(request.getLongitude())
-                .capacity(request.getCapacity())
-                .parkingAvailable(request.getParkingAvailable())
+    public PlaceInfoResponse.PlaceDetail toPlaceDetail(NearbyPlaceDto nearbyPlace) {
+        if (nearbyPlace == null) {
+            return null;
+        }
+        
+        return PlaceInfoResponse.PlaceDetail.builder()
+                .title(nearbyPlace.getTitle())
+                .placeId(nearbyPlace.getPlaceId())
+                .address(nearbyPlace.getAddress())
+                .rating(nearbyPlace.getRating())
+                .reviews(nearbyPlace.getReviews())
+                .phone(nearbyPlace.getPhone())
+                .phoneNumber(nearbyPlace.getPhone())
+                .website(nearbyPlace.getWebsite())
+                .description(nearbyPlace.getDescription())
+                .types(nearbyPlace.getTypes())
+                .typeId(nearbyPlace.getTypeId())
+                .price(nearbyPlace.getPrice())
+                .priceLevel(nearbyPlace.getPrice())
+                .gpsCoordinates(toGpsCoordinates(nearbyPlace.getGpsCoordinates()))
+                .amenities(nearbyPlace.getAmenities())
                 .build();
     }
     
     /**
-     * Convierte entidad Venue a VenueResponse (sin clima)
+     * Convierte coordenadas GPS de NearbyPlaceDto a PlaceInfoResponse
+     * Mapea las coordenadas geográficas entre diferentes estructuras de DTOs
+     * 
+     * @param gpsCoords Coordenadas GPS del DTO de SerpApi
+     * @return Coordenadas GPS en formato PlaceInfoResponse
      */
-    public VenueResponse toResponse(Venue venue) {
-        return VenueResponse.builder()
-                .venueId(venue.getVenueId())
-                .name(venue.getName())
-                .city(venue.getCity())
-                .latitude(venue.getLatitude())
-                .longitude(venue.getLongitude())
-                .capacity(venue.getCapacity())
-                .parkingAvailable(venue.getParkingAvailable())
-                .weather(null) // El clima se obtendrá por separado si se necesita
+    public PlaceInfoResponse.GpsCoordinates toGpsCoordinates(NearbyPlaceDto.GpsCoordinates gpsCoords) {
+        if (gpsCoords == null) {
+            return null;
+        }
+        
+        return PlaceInfoResponse.GpsCoordinates.builder()
+                .latitude(gpsCoords.getLatitude())
+                .longitude(gpsCoords.getLongitude())
                 .build();
     }
     
     /**
-     * Convierte entidad Venue a VenueResponse CON clima de Google
+     * Construye PlaceInfoResponse completo con detalles del lugar
+     * Crea respuesta completa incluyendo metadata de búsqueda
+     * 
+     * @param placeDetail Detalles del lugar ya mapeados
+     * @return Respuesta completa con el lugar y metadata
      */
-    public VenueResponse toResponseWithWeather(Venue venue, WeatherResponse weather) {
-        return VenueResponse.builder()
-                .venueId(venue.getVenueId())
-                .name(venue.getName())
-                .city(venue.getCity())
-                .latitude(venue.getLatitude())
-                .longitude(venue.getLongitude())
-                .capacity(venue.getCapacity())
-                .parkingAvailable(venue.getParkingAvailable())
-                .weather(weather) // Clima de Google Weather API
+    public PlaceInfoResponse toPlaceInfoResponse(PlaceInfoResponse.PlaceDetail placeDetail) {
+        if (placeDetail == null) {
+            return PlaceInfoResponse.builder()
+                    .localResults(Collections.emptyList())
+                    .searchMetadata(buildSuccessMetadata())
+                    .build();
+        }
+        
+        return PlaceInfoResponse.builder()
+                .localResults(List.of(placeDetail))
+                .searchMetadata(buildSuccessMetadata())
                 .build();
     }
     
     /**
-     * Actualiza una entidad Venue existente con datos de VenueRequest
+     * Construye PlaceInfoResponse completo desde NearbyPlaceDto directamente
+     * Método de conveniencia para mapeo directo en un solo paso
+     * 
+     * @param nearbyPlace DTO de SerpApi con información del lugar
+     * @return Respuesta completa lista para devolver al cliente
      */
-    public void updateEntity(Venue venue, VenueRequest request) {
-        if (request.getName() != null) {
-            venue.setName(request.getName());
+    public PlaceInfoResponse toPlaceInfoResponseFromNearby(NearbyPlaceDto nearbyPlace) {
+        if (nearbyPlace == null) {
+            return PlaceInfoResponse.builder()
+                    .localResults(Collections.emptyList())
+                    .searchMetadata(buildSuccessMetadata())
+                    .build();
         }
-        if (request.getCity() != null) {
-            venue.setCity(request.getCity());
+        
+        PlaceInfoResponse.PlaceDetail detail = toPlaceDetail(nearbyPlace);
+        return toPlaceInfoResponse(detail);
+    }
+    
+    /**
+     * Convierte lista de NearbyPlaceDto a lista de PlaceDetail
+     * Útil para mapear múltiples resultados de búsqueda
+     * 
+     * @param nearbyPlaces Lista de lugares desde SerpApi
+     * @return Lista de detalles de lugares mapeados
+     */
+    public List<PlaceInfoResponse.PlaceDetail> toPlaceDetailList(List<NearbyPlaceDto> nearbyPlaces) {
+        if (nearbyPlaces == null || nearbyPlaces.isEmpty()) {
+            return Collections.emptyList();
         }
-        if (request.getLatitude() != null) {
-            venue.setLatitude(request.getLatitude());
+        
+        return nearbyPlaces.stream()
+                .map(this::toPlaceDetail)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Extrae el primer venue de NearbySearchResponse
+     * Obtiene el venue más relevante de los resultados de búsqueda
+     * 
+     * @param searchResponse Respuesta de búsqueda de SerpApi
+     * @return Primer venue encontrado o null si no hay resultados
+     */
+    public NearbyPlaceDto extractFirstVenue(NearbySearchResponse searchResponse) {
+        if (searchResponse == null) {
+            return null;
         }
-        if (request.getLongitude() != null) {
-            venue.setLongitude(request.getLongitude());
+        
+        // Caso 1: Resultado único directo
+        if (searchResponse.getPlaceResults() != null) {
+            return searchResponse.getPlaceResults();
         }
-        if (request.getCapacity() != null) {
-            venue.setCapacity(request.getCapacity());
+        
+        // Caso 2: Lista de resultados
+        if (searchResponse.getLocalResults() != null && !searchResponse.getLocalResults().isEmpty()) {
+            return searchResponse.getLocalResults().get(0);
         }
-        if (request.getParkingAvailable() != null) {
-            venue.setParkingAvailable(request.getParkingAvailable());
-        }
+        
+        return null;
+    }
+    
+    /**
+     * Construye metadata de éxito para la respuesta
+     * Crea información de metadata estándar para respuestas exitosas
+     * 
+     * @return Metadata indicando éxito en la operación
+     */
+    private PlaceInfoResponse.SearchMetadata buildSuccessMetadata() {
+        return PlaceInfoResponse.SearchMetadata.builder()
+                .status("Success")
+                .build();
     }
 }

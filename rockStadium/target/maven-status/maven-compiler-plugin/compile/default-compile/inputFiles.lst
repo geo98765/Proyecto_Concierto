@@ -6,6 +6,7 @@ C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\co
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\controller\ArtistController.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\controller\HotelController.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\controller\ParkingController.java
+C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\controller\RestExceptionHandler.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\controller\TransportController.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\controller\UserController.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\controller\UserPreferenceController.java
@@ -20,6 +21,7 @@ C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\co
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\ConcertDto.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\ConcertRequest.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\ConcertResponse.java
+C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\DeleteFavoriteGenreRequest.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\LoginRequest.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\LoginResponse.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\MusicGenreResponse.java
@@ -33,11 +35,13 @@ C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\co
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\ProfileResponse.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\ReviewDto.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\SpotifyArtistDetail.java
+C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\SuccessResponse.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\TicketmasterEventResponse.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\UpdatePasswordRequest.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\UpdatePasswordResponse.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\UpdateProfileRequest.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\UpdateProfileResponse.java
+C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\UserPreferenceBasicResponse.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\UserPreferenceRequest.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\UserPreferenceResponse.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\UserRequest.java
@@ -46,6 +50,10 @@ C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\co
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\VenueResponse.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\VenueSearchRequest.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\dto\WeatherResponse.java
+C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\exception\BusinessRuleException.java
+C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\exception\ErrorResponse.java
+C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\exception\GlobalExceptionHandler.java
+C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\exception\ResourceNotFoundException.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\mapper\ArtistGenreMapper.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\mapper\ArtistMapper.java
 C:\Users\Asus Tuf F17\Documents\PROYECTO MARIO\demo\rockStadium\src\main\java\com\example\rockStadium\mapper\ConcertArtistMapper.java

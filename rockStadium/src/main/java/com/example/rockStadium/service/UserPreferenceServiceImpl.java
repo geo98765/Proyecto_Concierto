@@ -15,6 +15,7 @@ import com.example.rockStadium.dto.ArtistResponse;
 import com.example.rockStadium.dto.DeleteFavoriteGenreRequest;
 import com.example.rockStadium.dto.MusicGenreResponse;
 import com.example.rockStadium.dto.SuccessResponse;
+import com.example.rockStadium.dto.UserPreferenceBasicResponse;
 import com.example.rockStadium.dto.UserPreferenceRequest;
 import com.example.rockStadium.dto.UserPreferenceResponse;
 import com.example.rockStadium.mapper.UserPreferenceMapper;
@@ -56,28 +57,29 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     // ===== SEARCH PREFERENCES =====
     
     @Override
-    @Transactional
-    public UserPreferenceResponse createOrUpdatePreferences(Integer userId, UserPreferenceRequest request) {
-        log.info("Configuring preferences for user: {}", userId);
-        
-        Profile profile = getProfileByUserId(userId);
-        UserPreference preference = getOrCreateUserPreference(profile);
-        
-        // Actualizar el radio de búsqueda
-        if (request.getSearchRadiusKm() != null) {
-            preference.setSearchRadius(request.getSearchRadiusKm());
-        }
-        
-        // Actualizar las notificaciones
-        if (request.getEmailNotifications() != null) {
-            preference.setEmailNotifications(request.getEmailNotifications());
-        }
-        
-        preference = userPreferenceRepository.save(preference);
-        log.info("✅ Preferences updated for user {}", userId);
-        
-        return buildPreferenceResponse(profile, preference);
+@Transactional
+public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, UserPreferenceRequest request) {
+    log.info("Configuring preferences for user: {}", userId);
+    
+    Profile profile = getProfileByUserId(userId);
+    UserPreference preference = getOrCreateUserPreference(profile);
+    
+    // Actualizar el radio de búsqueda si está presente en la petición
+    if (request.getSearchRadiusKm() != null) {
+        preference.setSearchRadius(request.getSearchRadiusKm());
     }
+    
+    // Actualizar las notificaciones si están presentes en la petición
+    if (request.getEmailNotifications() != null) {
+        preference.setEmailNotifications(request.getEmailNotifications());
+    }
+    
+    preference = userPreferenceRepository.save(preference);
+    log.info("✅ Preferences updated for user {}", userId);
+    
+    // Devolver solo los campos básicos usando el nuevo DTO
+    return mapper.toBasicResponse(preference);
+}
     
     @Override
     @Transactional(readOnly = true)

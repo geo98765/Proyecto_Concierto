@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.rockStadium.dto.ArtistResponse;
 import com.example.rockStadium.dto.MusicGenreResponse;
+import com.example.rockStadium.dto.UserPreferenceBasicResponse;
 import com.example.rockStadium.dto.UserPreferenceResponse;
 import com.example.rockStadium.model.Artist;
 import com.example.rockStadium.model.MusicGenre;
@@ -87,4 +88,23 @@ public class UserPreferenceMapper {
                 .description(genre.getDescription())
                 .build();
     }
+
+
+    /**
+ * Convert UserPreference entity to Basic Response DTO (only essential fields)
+ * Convierte entidad UserPreference a DTO básico de respuesta (solo campos esenciales)
+ * 
+ * @param preference The user preference entity
+ * @return UserPreferenceBasicResponse DTO with only basic information
+ */
+public UserPreferenceBasicResponse toBasicResponse(UserPreference preference) {
+    return UserPreferenceBasicResponse.builder()
+            .userPreferenceId(preference.getUserPreferenceId())
+            .profileId(preference.getProfile().getProfileId())
+            .searchRadius(preference.getSearchRadius())
+            .emailNotifications(preference.getEmailNotifications())
+            .build();
+}
+
+
 }

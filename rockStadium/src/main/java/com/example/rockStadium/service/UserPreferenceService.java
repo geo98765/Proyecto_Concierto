@@ -10,6 +10,7 @@ import com.example.rockStadium.dto.ArtistResponse;
 import com.example.rockStadium.dto.DeleteFavoriteGenreRequest;
 import com.example.rockStadium.dto.MusicGenreResponse;
 import com.example.rockStadium.dto.SuccessResponse;
+import com.example.rockStadium.dto.UserPreferenceBasicResponse;
 import com.example.rockStadium.dto.UserPreferenceRequest;
 import com.example.rockStadium.dto.UserPreferenceResponse;
 
@@ -23,8 +24,9 @@ public interface UserPreferenceService {
     /**
      * Create or update user preferences
      */
-    UserPreferenceResponse createOrUpdatePreferences(Integer userId, UserPreferenceRequest request);
-    
+UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, UserPreferenceRequest request);
+
+// ========================================
     /**
      * Get user preferences (with optional pagination for lists)
      */

@@ -3,7 +3,6 @@ package com.example.rockStadium.controller;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +22,7 @@ import com.example.rockStadium.dto.ArtistResponse;
 import com.example.rockStadium.dto.DeleteFavoriteGenreRequest;
 import com.example.rockStadium.dto.MusicGenreResponse;
 import com.example.rockStadium.dto.SuccessResponse;
+import com.example.rockStadium.dto.UserPreferenceBasicResponse;
 import com.example.rockStadium.dto.UserPreferenceRequest;
 import com.example.rockStadium.dto.UserPreferenceResponse;
 import com.example.rockStadium.service.UserPreferenceService;
@@ -45,7 +45,7 @@ public class UserPreferenceController {
     
     private final UserPreferenceService preferenceService;
     
-    // ===== SEARCH PREFERENCES =====
+    // ===== SEARCH PREFERENCES ===== 
     
     @Operation(
         summary = "Get user preferences",
@@ -69,23 +69,23 @@ public class UserPreferenceController {
     }
     
     @Operation(
-        summary = "Configure or update preferences",
-        description = "Configures search radius and notification preferences for the user"
-    )
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Preferences updated successfully"),
-        @ApiResponse(responseCode = "400", description = "Invalid data"),
-        @ApiResponse(responseCode = "404", description = "User not found")
-    })
-    @PutMapping
-    public ResponseEntity<UserPreferenceResponse> updatePreferences(
-            @Parameter(description = "User ID", example = "1", required = true)
-            @PathVariable Integer userId,
-            @Valid @RequestBody UserPreferenceRequest request) {
-        log.info("⚙️ Updating preferences for user: {}", userId);
-        UserPreferenceResponse response = preferenceService.createOrUpdatePreferences(userId, request);
-        return ResponseEntity.ok(response);
-    }
+    summary = "Configure or update preferences",
+    description = "Configures search radius and notification preferences for the user. Returns only the updated basic fields."
+)
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Preferences updated successfully"),
+    @ApiResponse(responseCode = "400", description = "Invalid data"),
+    @ApiResponse(responseCode = "404", description = "User not found")
+})
+@PutMapping
+public ResponseEntity<UserPreferenceBasicResponse> updatePreferences(
+        @Parameter(description = "User ID", example = "1", required = true)
+        @PathVariable Integer userId,
+        @Valid @RequestBody UserPreferenceRequest request) {
+    log.info("⚙️ Updating preferences for user: {}", userId);
+    UserPreferenceBasicResponse response = preferenceService.createOrUpdatePreferences(userId, request);
+    return ResponseEntity.ok(response);
+}
     
     // ===== FAVORITE ARTISTS =====
     
@@ -98,7 +98,7 @@ public class UserPreferenceController {
         @ApiResponse(responseCode = "404", description = "User not found")
     })
     @GetMapping("/artists")
-    public ResponseEntity<Page<ArtistResponse>> getFavoriteArtists(
+    public ResponseEntity<List<ArtistResponse>> getFavoriteArtists(
             @Parameter(description = "User ID", example = "1", required = true)
             @PathVariable Integer userId,
             
@@ -106,14 +106,16 @@ public class UserPreferenceController {
             @RequestParam(defaultValue = "0") int page,
             
             @Parameter(description = "Number of artists per page", example = "10")
-            @RequestParam(defaultValue = "10") int pageSize) {
+            @RequestParam(defaultValue = "10") int pageSize) 
+    {
         
         log.info("🎤 Getting favorite artists for user: {} (page: {}, size: {})", userId, page, pageSize);
         
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<ArtistResponse> response = preferenceService.getFavoriteArtists(userId, pageable);
+        Page<ArtistResponse> artistsPage = preferenceService.getFavoriteArtists(userId, pageable);
         
-        return ResponseEntity.ok(response);
+        // Devolver solo el contenido sin metadata de paginación
+        return ResponseEntity.ok(artistsPage.getContent());
     }
     
     @Operation(
@@ -165,7 +167,7 @@ public class UserPreferenceController {
         @ApiResponse(responseCode = "404", description = "User not found")
     })
     @GetMapping("/genres")
-    public ResponseEntity<Page<MusicGenreResponse>> getFavoriteGenres(
+    public ResponseEntity<List<MusicGenreResponse>> getFavoriteGenres(
             @Parameter(description = "User ID", example = "1", required = true)
             @PathVariable Integer userId,
             
@@ -178,9 +180,10 @@ public class UserPreferenceController {
         log.info("🎵 Getting favorite genres for user: {} (page: {}, size: {})", userId, page, pageSize);
         
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<MusicGenreResponse> response = preferenceService.getFavoriteGenres(userId, pageable);
+        Page<MusicGenreResponse> genresPage = preferenceService.getFavoriteGenres(userId, pageable);
         
-        return ResponseEntity.ok(response);
+        // Devolver solo el contenido sin metadata de paginación
+        return ResponseEntity.ok(genresPage.getContent());
     }
     
     @Operation(
@@ -229,7 +232,7 @@ public class UserPreferenceController {
         @ApiResponse(responseCode = "200", description = "Genres retrieved successfully")
     })
     @GetMapping("/genres/available")
-    public ResponseEntity<Page<MusicGenreResponse>> getAllGenres(
+    public ResponseEntity<List<MusicGenreResponse>> getAllGenres(
             @Parameter(description = "User ID", example = "1")
             @PathVariable Integer userId,
             
@@ -250,21 +253,18 @@ public class UserPreferenceController {
         // Obtener todos los géneros del servicio
         List<MusicGenreResponse> allGenres = preferenceService.getAllGenres();
         
-        // LÓGICA DE PAGINACIÓN MANUAL
+        // Lógica de paginación manual
         int start = page * pageSize;
         int end = Math.min((start + pageSize), allGenres.size());
         
         // Manejar caso donde start está más allá del tamaño de la lista
         if (start >= allGenres.size()) {
-            Pageable pageable = PageRequest.of(page, pageSize);
-            Page<MusicGenreResponse> emptyPage = new PageImpl<>(List.of(), pageable, allGenres.size());
-            return ResponseEntity.ok(emptyPage);
+            return ResponseEntity.ok(List.of());
         }
         
+        // Devolver solo la sublista sin metadata
         List<MusicGenreResponse> pageContent = allGenres.subList(start, end);
-        Pageable pageable = PageRequest.of(page, pageSize);
-        Page<MusicGenreResponse> pageResponse = new PageImpl<>(pageContent, pageable, allGenres.size());
         
-        return ResponseEntity.ok(pageResponse);
+        return ResponseEntity.ok(pageContent);
     }
 }
