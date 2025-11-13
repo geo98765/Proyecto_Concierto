@@ -1,0 +1,40 @@
+-------------------------------------------------------------------------------
+Test set: com.example.rockStadium.controller.UserPreferenceControllerTest
+-------------------------------------------------------------------------------
+Tests run: 14, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 5.754 s <<< FAILURE! -- in com.example.rockStadium.controller.UserPreferenceControllerTest
+com.example.rockStadium.controller.UserPreferenceControllerTest.testGetFavoriteArtists_WithPagination_Success -- Time elapsed: 0.051 s <<< FAILURE!
+java.lang.AssertionError: No value at JSON path "$.content"
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:351)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValue(JsonPathExpectationsHelper.java:106)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$value$0(JsonPathResultMatchers.java:88)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.example.rockStadium.controller.UserPreferenceControllerTest.testGetFavoriteArtists_WithPagination_Success(UserPreferenceControllerTest.java:247)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: com.jayway.jsonpath.PathNotFoundException: Expected to find an object with property ['content'] in path $ but found 'net.minidev.json.JSONArray'. This is not a json object according to the JsonProvider: 'com.jayway.jsonpath.spi.json.JsonSmartJsonProvider'.
+
+com.example.rockStadium.controller.UserPreferenceControllerTest.testGetAllGenres_WithPagination_Success -- Time elapsed: 0.018 s <<< FAILURE!
+java.lang.AssertionError: No value at JSON path "$.content"
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:351)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValue(JsonPathExpectationsHelper.java:106)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$value$0(JsonPathResultMatchers.java:88)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.example.rockStadium.controller.UserPreferenceControllerTest.testGetAllGenres_WithPagination_Success(UserPreferenceControllerTest.java:485)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: com.jayway.jsonpath.PathNotFoundException: Expected to find an object with property ['content'] in path $ but found 'net.minidev.json.JSONArray'. This is not a json object according to the JsonProvider: 'com.jayway.jsonpath.spi.json.JsonSmartJsonProvider'.
+
+com.example.rockStadium.controller.UserPreferenceControllerTest.testGetFavoriteGenres_WithPagination_Success -- Time elapsed: 0.016 s <<< FAILURE!
+java.lang.AssertionError: No value at JSON path "$.content"
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:351)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValue(JsonPathExpectationsHelper.java:106)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$value$0(JsonPathResultMatchers.java:88)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.example.rockStadium.controller.UserPreferenceControllerTest.testGetFavoriteGenres_WithPagination_Success(UserPreferenceControllerTest.java:338)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: com.jayway.jsonpath.PathNotFoundException: Expected to find an object with property ['content'] in path $ but found 'net.minidev.json.JSONArray'. This is not a json object according to the JsonProvider: 'com.jayway.jsonpath.spi.json.JsonSmartJsonProvider'.
+
