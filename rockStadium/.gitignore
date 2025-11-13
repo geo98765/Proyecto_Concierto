@@ -1,0 +1,8 @@
+# Ignorar archivos compilados y temporales
+target/
+*.class
+
+# Ignorar configuraciones locales
+.idea/
+.vscode/
+*.log
