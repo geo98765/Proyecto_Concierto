@@ -338,11 +338,8 @@ public class UserPreferenceController {
         @ApiResponse(responseCode = "401", description = "Not authenticated"),
         @ApiResponse(responseCode = "403", description = "Not authorized to modify these favorites"),
         @ApiResponse(responseCode = "404", description = "User or genre not found in favorites")
-    })
     @DeleteMapping("/genres")
     public ResponseEntity<SuccessResponse> removeFavoriteGenre(
-            @Parameter(description = "User ID", example = "1", required = true)
-            @PathVariable Integer userId,
             @Valid @RequestBody DeleteFavoriteGenreRequest request) {
         log.info("➖ Removing favorite genre for user: {}", userId);
         SuccessResponse response = preferenceService.removeFavoriteGenre(userId, request);
