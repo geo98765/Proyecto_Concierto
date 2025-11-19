@@ -1,4 +1,4 @@
-package com.example.rockStadium.mapper;
+package com.example.rockstadium.mapper;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.example.rockStadium.dto.NearbyPlaceDto;
-import com.example.rockStadium.dto.NearbySearchResponse;
-import com.example.rockStadium.dto.PlaceInfoResponse;
+import com.example.rockstadium.dto.NearbyPlaceDto;
+import com.example.rockstadium.dto.NearbySearchResponse;
+import com.example.rockstadium.dto.PlaceInfoResponse;
 
 /**
  * Mapper para conversiones de DTOs relacionados con Venues

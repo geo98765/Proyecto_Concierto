@@ -1,10 +1,11 @@
-package com.example.rockStadium.mapper;
+package com.example.rockstadium.mapper;
 
-import com.example.rockStadium.dto.*;
-import com.example.rockStadium.model.Profile;
-import com.example.rockStadium.model.ProfileLocation;
-import com.example.rockStadium.model.User;
 import org.springframework.stereotype.Component;
+
+import com.example.rockstadium.dto.*;
+import com.example.rockstadium.model.Profile;
+import com.example.rockstadium.model.ProfileLocation;
+import com.example.rockstadium.model.User;
 
 @Component
 public class UserMapper {

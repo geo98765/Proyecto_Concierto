@@ -1,4 +1,4 @@
-package com.example.rockStadium.repository;
+package com.example.rockstadium.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.rockStadium.model.Venue;
+import com.example.rockstadium.model.Venue;
 
 @Repository
 public interface VenueRepository extends JpaRepository<Venue, Integer> {

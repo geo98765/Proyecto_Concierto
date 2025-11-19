@@ -1,4 +1,4 @@
-package com.example.rockStadium.config;
+package com.example.rockstadium.config;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.rockStadium.controller;
+package com.example.rockstadium.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rockStadium.dto.NearbyPlaceDto;
-import com.example.rockStadium.dto.PlaceInfoResponse;
-import com.example.rockStadium.service.VenueService;
+import com.example.rockstadium.dto.NearbyPlaceDto;
+import com.example.rockstadium.dto.PlaceInfoResponse;
+import com.example.rockstadium.service.VenueService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

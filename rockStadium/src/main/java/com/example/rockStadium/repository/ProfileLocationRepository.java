@@ -1,8 +1,9 @@
-package com.example.rockStadium.repository;
+package com.example.rockstadium.repository;
 
-import com.example.rockStadium.model.ProfileLocation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.example.rockstadium.model.ProfileLocation;
 
 @Repository
 public interface ProfileLocationRepository extends JpaRepository<ProfileLocation, Integer> {

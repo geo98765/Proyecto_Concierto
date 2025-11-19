@@ -1,4 +1,4 @@
-package com.example.rockStadium.model;
+package com.example.rockstadium.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

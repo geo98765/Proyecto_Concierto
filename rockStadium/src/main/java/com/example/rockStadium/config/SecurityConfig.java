@@ -1,4 +1,4 @@
-package com.example.rockStadium.config;
+package com.example.rockstadium.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.example.rockStadium.service.CustomUserDetailsService;
+import com.example.rockstadium.service.CustomUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 

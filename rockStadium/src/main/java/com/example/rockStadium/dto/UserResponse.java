@@ -1,5 +1,5 @@
 
-package com.example.rockStadium.dto;
+package com.example.rockstadium.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

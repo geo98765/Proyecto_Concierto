@@ -1,4 +1,4 @@
-package com.example.rockStadium.controller;
+package com.example.rockstadium.controller;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rockStadium.dto.MusicGenreResponse;
-import com.example.rockStadium.service.UserPreferenceService;
+import com.example.rockstadium.dto.MusicGenreResponse;
+import com.example.rockstadium.service.UserPreferenceService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

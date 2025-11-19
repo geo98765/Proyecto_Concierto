@@ -1,12 +1,12 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
 
-import com.example.rockStadium.config.TicketmasterConfig;
-import com.example.rockStadium.dto.TicketmasterEventResponse;
+import com.example.rockstadium.config.TicketmasterConfig;
+import com.example.rockstadium.dto.TicketmasterEventResponse;
 import com.google.gson.Gson;
 
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.rockStadium;
+package com.example.rockstadium;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

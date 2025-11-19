@@ -29,16 +29,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.rockStadium.dto.AddFavoriteArtistRequest;
-import com.example.rockStadium.dto.AddFavoriteGenreRequest;
-import com.example.rockStadium.dto.ArtistResponse;
-import com.example.rockStadium.dto.DeleteFavoriteGenreRequest;
-import com.example.rockStadium.dto.MusicGenreResponse;
-import com.example.rockStadium.dto.SuccessResponse;
-import com.example.rockStadium.dto.UserPreferenceBasicResponse; // ✅ NUEVO IMPORT
-import com.example.rockStadium.dto.UserPreferenceRequest;
-import com.example.rockStadium.dto.UserPreferenceResponse;
-import com.example.rockStadium.service.UserPreferenceService;
+import com.example.rockstadium.controller.UserPreferenceController;
+import com.example.rockstadium.dto.AddFavoriteArtistRequest;
+import com.example.rockstadium.dto.AddFavoriteGenreRequest;
+import com.example.rockstadium.dto.ArtistResponse;
+import com.example.rockstadium.dto.DeleteFavoriteGenreRequest;
+import com.example.rockstadium.dto.MusicGenreResponse;
+import com.example.rockstadium.dto.SuccessResponse;
+import com.example.rockstadium.dto.UserPreferenceBasicResponse;
+import com.example.rockstadium.dto.UserPreferenceRequest;
+import com.example.rockstadium.dto.UserPreferenceResponse;
+import com.example.rockstadium.service.UserPreferenceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**

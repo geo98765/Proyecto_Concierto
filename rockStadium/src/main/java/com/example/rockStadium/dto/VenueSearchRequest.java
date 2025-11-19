@@ -1,4 +1,4 @@
-package com.example.rockStadium.dto;
+package com.example.rockstadium.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

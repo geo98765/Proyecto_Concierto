@@ -1,4 +1,4 @@
-package com.example.rockStadium.model;
+package com.example.rockstadium.model;
 
 import java.time.LocalDateTime;
 import java.util.Collection;

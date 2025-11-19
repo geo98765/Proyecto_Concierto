@@ -1,18 +1,18 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.example.rockStadium.dto.AddFavoriteGenreRequest;
-import com.example.rockStadium.dto.ArtistResponse;
-import com.example.rockStadium.dto.DeleteFavoriteGenreRequest;
-import com.example.rockStadium.dto.MusicGenreResponse;
-import com.example.rockStadium.dto.SuccessResponse;
-import com.example.rockStadium.dto.UserPreferenceBasicResponse;
-import com.example.rockStadium.dto.UserPreferenceRequest;
-import com.example.rockStadium.dto.UserPreferenceResponse;
+import com.example.rockstadium.dto.AddFavoriteGenreRequest;
+import com.example.rockstadium.dto.ArtistResponse;
+import com.example.rockstadium.dto.DeleteFavoriteGenreRequest;
+import com.example.rockstadium.dto.MusicGenreResponse;
+import com.example.rockstadium.dto.SuccessResponse;
+import com.example.rockstadium.dto.UserPreferenceBasicResponse;
+import com.example.rockstadium.dto.UserPreferenceRequest;
+import com.example.rockstadium.dto.UserPreferenceResponse;
 
 /**
  * Service interface for user preferences management

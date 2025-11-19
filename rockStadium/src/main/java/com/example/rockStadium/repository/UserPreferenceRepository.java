@@ -1,11 +1,11 @@
-package com.example.rockStadium.repository;
+package com.example.rockstadium.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.rockStadium.model.UserPreference;
+import com.example.rockstadium.model.UserPreference;
 
 @Repository
 public interface UserPreferenceRepository extends JpaRepository<UserPreference, Integer> {

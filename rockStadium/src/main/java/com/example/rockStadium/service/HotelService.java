@@ -1,4 +1,4 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.example.rockStadium.dto.NearbyPlaceDto;
-import com.example.rockStadium.dto.NearbySearchResponse;
-import com.example.rockStadium.dto.PlaceInfoResponse;
-import com.example.rockStadium.model.Venue;
-import com.example.rockStadium.repository.VenueRepository;
+import com.example.rockstadium.dto.NearbyPlaceDto;
+import com.example.rockstadium.dto.NearbySearchResponse;
+import com.example.rockstadium.dto.PlaceInfoResponse;
+import com.example.rockstadium.model.Venue;
+import com.example.rockstadium.repository.VenueRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

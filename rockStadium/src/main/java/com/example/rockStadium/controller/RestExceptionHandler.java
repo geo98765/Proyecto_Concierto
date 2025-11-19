@@ -1,4 +1,4 @@
-package com.example.rockStadium.controller;
+package com.example.rockstadium.controller;
 
 import java.time.Instant;
 import java.util.HashMap;

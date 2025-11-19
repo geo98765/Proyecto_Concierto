@@ -1,4 +1,4 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.stereotype.Service;
 
-import com.example.rockStadium.config.SpotifyApiConfig;
-import com.example.rockStadium.dto.ArtistResponse;
+import com.example.rockstadium.config.SpotifyApiConfig;
+import com.example.rockstadium.dto.ArtistResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

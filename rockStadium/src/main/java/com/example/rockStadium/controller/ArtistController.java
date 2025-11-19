@@ -1,4 +1,4 @@
-package com.example.rockStadium.controller;
+package com.example.rockstadium.controller;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rockStadium.dto.ArtistCompleteInfoResponse;
-import com.example.rockStadium.dto.ArtistResponse;
-import com.example.rockStadium.service.ArtistEventService;
-import com.example.rockStadium.service.SpotifyService;
+import com.example.rockstadium.dto.ArtistCompleteInfoResponse;
+import com.example.rockstadium.dto.ArtistResponse;
+import com.example.rockstadium.service.ArtistEventService;
+import com.example.rockstadium.service.SpotifyService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

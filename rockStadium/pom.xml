@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>rockStadium</artifactId>
+	<artifactId>rockstadium</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>rockStadium</name>
+	<name>rockstadium</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -56,6 +56,16 @@
     <artifactId>okhttp</artifactId>
     <version>4.12.0</version>
 </dependency>
+
+
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.30</version> <!-- o similar -->
+    <scope>provided</scope>
+</dependency>
+
+
 
 <!-- Para parsear JSON de SerpApi -->
 <dependency>

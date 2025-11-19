@@ -1,4 +1,4 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -10,10 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.rockStadium.dto.NearbyPlaceDto;
-import com.example.rockStadium.dto.NearbySearchResponse;
-import com.example.rockStadium.dto.PlaceInfoResponse;
-import com.example.rockStadium.mapper.VenueMapper;
+import com.example.rockstadium.dto.NearbyPlaceDto;
+import com.example.rockstadium.dto.NearbySearchResponse;
+import com.example.rockstadium.dto.PlaceInfoResponse;
+import com.example.rockstadium.mapper.VenueMapper;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

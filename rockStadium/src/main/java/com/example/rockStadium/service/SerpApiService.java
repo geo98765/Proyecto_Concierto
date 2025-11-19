@@ -1,4 +1,4 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -8,10 +8,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.rockStadium.config.SerpApiConfig;
-import com.example.rockStadium.dto.NearbySearchResponse;
-import com.example.rockStadium.dto.PlaceInfoResponse;
-import com.example.rockStadium.dto.WeatherResponse;
+import com.example.rockstadium.config.SerpApiConfig;
+import com.example.rockstadium.dto.NearbySearchResponse;
+import com.example.rockstadium.dto.PlaceInfoResponse;
+import com.example.rockstadium.dto.WeatherResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;

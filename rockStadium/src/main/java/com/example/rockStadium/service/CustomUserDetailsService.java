@@ -1,12 +1,12 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.rockStadium.model.User;
-import com.example.rockStadium.repository.UserRepository;
+import com.example.rockstadium.model.User;
+import com.example.rockstadium.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

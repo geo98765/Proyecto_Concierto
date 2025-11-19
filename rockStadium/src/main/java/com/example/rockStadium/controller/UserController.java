@@ -1,4 +1,4 @@
-package com.example.rockStadium.controller;
+package com.example.rockstadium.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rockStadium.dto.LoginRequest;
-import com.example.rockStadium.dto.UpdatePasswordRequest;
-import com.example.rockStadium.dto.UpdateProfileRequest;
-import com.example.rockStadium.dto.UserRequest;
-import com.example.rockStadium.dto.UserResponse;
-import com.example.rockStadium.service.UserService;
+import com.example.rockstadium.dto.LoginRequest;
+import com.example.rockstadium.dto.UpdatePasswordRequest;
+import com.example.rockstadium.dto.UpdateProfileRequest;
+import com.example.rockstadium.dto.UserRequest;
+import com.example.rockstadium.dto.UserResponse;
+import com.example.rockstadium.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -1,3 +1,4 @@
+package com.example.rockstadium.exception;
 // package com.example.rockStadium.exception;
 
 // import java.time.LocalDateTime;

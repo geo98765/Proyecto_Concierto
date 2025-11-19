@@ -1,4 +1,4 @@
-package com.example.rockStadium.exception;
+package com.example.rockstadium.exception;
 
 import java.time.LocalDateTime;
 import java.util.Map;

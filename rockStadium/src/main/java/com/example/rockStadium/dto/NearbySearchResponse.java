@@ -1,4 +1,4 @@
-package com.example.rockStadium.dto;
+package com.example.rockstadium.dto;
 
 import java.util.List;
 

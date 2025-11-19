@@ -1,10 +1,10 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.example.rockStadium.dto.NearbyPlaceDto;
-import com.example.rockStadium.dto.PlaceInfoResponse;
+import com.example.rockstadium.dto.NearbyPlaceDto;
+import com.example.rockstadium.dto.PlaceInfoResponse;
 
 /**
  * Interfaz de servicio para gestión de venues (recintos de conciertos)

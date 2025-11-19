@@ -1,4 +1,4 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.rockStadium.dto.ConcertRequest;
-import com.example.rockStadium.dto.ConcertResponse;
-import com.example.rockStadium.mapper.ConcertMapper;
-import com.example.rockStadium.model.Concert;
-import com.example.rockStadium.model.Venue;
-import com.example.rockStadium.repository.ConcertRepositoryTest;
-import com.example.rockStadium.repository.VenueRepository;
+import com.example.rockstadium.dto.ConcertRequest;
+import com.example.rockstadium.dto.ConcertResponse;
+import com.example.rockstadium.mapper.ConcertMapper;
+import com.example.rockstadium.model.Concert;
+import com.example.rockstadium.model.Venue;
+import com.example.rockstadium.repository.ConcertRepositoryTest;
+import com.example.rockstadium.repository.VenueRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

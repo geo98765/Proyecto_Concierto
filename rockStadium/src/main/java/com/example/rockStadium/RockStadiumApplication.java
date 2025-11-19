@@ -1,4 +1,4 @@
-package com.example.rockStadium;
+package com.example.rockstadium;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

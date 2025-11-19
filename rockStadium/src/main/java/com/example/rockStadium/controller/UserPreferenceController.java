@@ -1,4 +1,4 @@
-package com.example.rockStadium.controller;
+package com.example.rockstadium.controller;
 
 import java.util.List;
 
@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rockStadium.dto.AddFavoriteArtistRequest;
-import com.example.rockStadium.dto.AddFavoriteGenreRequest;
-import com.example.rockStadium.dto.ArtistResponse;
-import com.example.rockStadium.dto.DeleteFavoriteGenreRequest;
-import com.example.rockStadium.dto.MusicGenreResponse;
-import com.example.rockStadium.dto.SuccessResponse;
-import com.example.rockStadium.dto.UserPreferenceBasicResponse;
-import com.example.rockStadium.dto.UserPreferenceRequest;
-import com.example.rockStadium.dto.UserPreferenceResponse;
-import com.example.rockStadium.service.UserPreferenceService;
+import com.example.rockstadium.dto.AddFavoriteArtistRequest;
+import com.example.rockstadium.dto.AddFavoriteGenreRequest;
+import com.example.rockstadium.dto.ArtistResponse;
+import com.example.rockstadium.dto.DeleteFavoriteGenreRequest;
+import com.example.rockstadium.dto.MusicGenreResponse;
+import com.example.rockstadium.dto.SuccessResponse;
+import com.example.rockstadium.dto.UserPreferenceBasicResponse;
+import com.example.rockstadium.dto.UserPreferenceRequest;
+import com.example.rockstadium.dto.UserPreferenceResponse;
+import com.example.rockstadium.service.UserPreferenceService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -338,8 +338,11 @@ public class UserPreferenceController {
         @ApiResponse(responseCode = "401", description = "Not authenticated"),
         @ApiResponse(responseCode = "403", description = "Not authorized to modify these favorites"),
         @ApiResponse(responseCode = "404", description = "User or genre not found in favorites")
+    })
     @DeleteMapping("/genres")
     public ResponseEntity<SuccessResponse> removeFavoriteGenre(
+            @Parameter(description = "User ID", example = "1", required = true)
+            @PathVariable Integer userId,
             @Valid @RequestBody DeleteFavoriteGenreRequest request) {
         log.info("➖ Removing favorite genre for user: {}", userId);
         SuccessResponse response = preferenceService.removeFavoriteGenre(userId, request);

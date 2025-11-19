@@ -1,4 +1,4 @@
-package com.example.rockStadium.mapper;
+package com.example.rockstadium.mapper;
 
 public class MusicGenreMapper {
     

@@ -1,4 +1,4 @@
-package com.example.rockStadium.exception;
+package com.example.rockstadium.exception;
 
 /**
  * Exception thrown when a business rule is violated

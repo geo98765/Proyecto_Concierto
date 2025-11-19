@@ -1,16 +1,16 @@
-package com.example.rockStadium.mapper;
+package com.example.rockstadium.mapper;
 
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.example.rockStadium.dto.ArtistResponse;
-import com.example.rockStadium.dto.MusicGenreResponse;
-import com.example.rockStadium.dto.UserPreferenceBasicResponse;
-import com.example.rockStadium.dto.UserPreferenceResponse;
-import com.example.rockStadium.model.Artist;
-import com.example.rockStadium.model.MusicGenre;
-import com.example.rockStadium.model.UserPreference;
+import com.example.rockstadium.dto.ArtistResponse;
+import com.example.rockstadium.dto.MusicGenreResponse;
+import com.example.rockstadium.dto.UserPreferenceBasicResponse;
+import com.example.rockstadium.dto.UserPreferenceResponse;
+import com.example.rockstadium.model.Artist;
+import com.example.rockstadium.model.MusicGenre;
+import com.example.rockstadium.model.UserPreference;
 
 /**
  * Mapper for UserPreference entities and DTOs

@@ -1,4 +1,4 @@
-package com.example.rockStadium.repository;
+package com.example.rockstadium.repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.rockStadium.model.Concert;
+import com.example.rockstadium.model.Concert;
 
 @Repository
 public interface ConcertRepository extends JpaRepository<Concert, Integer> {

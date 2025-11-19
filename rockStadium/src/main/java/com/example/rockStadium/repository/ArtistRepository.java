@@ -1,4 +1,4 @@
-package com.example.rockStadium.repository;
+package com.example.rockstadium.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.rockStadium.model.Artist;
+import com.example.rockstadium.model.Artist;
 
 @Repository
 public interface ArtistRepository extends JpaRepository<Artist, Integer> {

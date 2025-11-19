@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import com.example.rockStadium.model.Profile;
-import com.example.rockStadium.model.User;
-import com.example.rockStadium.model.UserPreference;
+import com.example.rockstadium.model.Profile;
+import com.example.rockstadium.model.User;
+import com.example.rockstadium.model.UserPreference;
+import com.example.rockstadium.repository.UserPreferenceRepository;
 
 /**
  * Pruebas de integración para UserPreferenceRepository

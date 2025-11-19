@@ -1,4 +1,4 @@
-package com.example.rockStadium.controller;
+package com.example.rockstadium.controller;
 
 import java.math.BigDecimal;
 
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rockStadium.dto.NearbySearchResponse;
-import com.example.rockStadium.dto.PlaceInfoResponse;
-import com.example.rockStadium.service.ParkingService;
+import com.example.rockstadium.dto.NearbySearchResponse;
+import com.example.rockstadium.dto.PlaceInfoResponse;
+import com.example.rockstadium.service.ParkingService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.rockStadium.repository;
+package com.example.rockstadium.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.rockStadium.model.FavoriteArtist;
+import com.example.rockstadium.model.FavoriteArtist;
 
 @Repository
 public interface FavoriteArtistRepository extends JpaRepository<FavoriteArtist, Integer> {

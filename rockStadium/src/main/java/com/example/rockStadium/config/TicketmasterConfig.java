@@ -1,4 +1,4 @@
-package com.example.rockStadium.config;
+package com.example.rockstadium.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

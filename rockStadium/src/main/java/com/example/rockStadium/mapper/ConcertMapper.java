@@ -1,10 +1,11 @@
-package com.example.rockStadium.mapper;
+package com.example.rockstadium.mapper;
 
-import com.example.rockStadium.dto.ConcertRequest;
-import com.example.rockStadium.dto.ConcertResponse;
-import com.example.rockStadium.model.Concert;
-import com.example.rockStadium.model.Venue;
 import org.springframework.stereotype.Component;
+
+import com.example.rockstadium.dto.ConcertRequest;
+import com.example.rockstadium.dto.ConcertResponse;
+import com.example.rockstadium.model.Concert;
+import com.example.rockstadium.model.Venue;
 
 @Component
 public class ConcertMapper {

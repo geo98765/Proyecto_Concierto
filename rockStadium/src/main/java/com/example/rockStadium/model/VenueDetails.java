@@ -1,4 +1,4 @@
-package com.example.rockStadium.model;
+package com.example.rockstadium.model;
 
 public class VenueDetails {
     private String name;

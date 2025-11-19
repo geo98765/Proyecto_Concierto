@@ -1,4 +1,4 @@
-package com.example.rockStadium.service;
+package com.example.rockstadium.service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -10,18 +10,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.rockStadium.dto.LoginRequest;
-import com.example.rockStadium.dto.UpdatePasswordRequest;
-import com.example.rockStadium.dto.UpdateProfileRequest;
-import com.example.rockStadium.dto.UserRequest;
-import com.example.rockStadium.dto.UserResponse;
-import com.example.rockStadium.mapper.UserMapper;
-import com.example.rockStadium.model.Profile;
-import com.example.rockStadium.model.ProfileLocation;
-import com.example.rockStadium.model.User;
-import com.example.rockStadium.repository.ProfileLocationRepository;
-import com.example.rockStadium.repository.ProfileRepository;
-import com.example.rockStadium.repository.UserRepository;
+import com.example.rockstadium.dto.LoginRequest;
+import com.example.rockstadium.dto.UpdatePasswordRequest;
+import com.example.rockstadium.dto.UpdateProfileRequest;
+import com.example.rockstadium.dto.UserRequest;
+import com.example.rockstadium.dto.UserResponse;
+import com.example.rockstadium.mapper.UserMapper;
+import com.example.rockstadium.model.Profile;
+import com.example.rockstadium.model.ProfileLocation;
+import com.example.rockstadium.model.User;
+import com.example.rockstadium.repository.ProfileLocationRepository;
+import com.example.rockstadium.repository.ProfileRepository;
+import com.example.rockstadium.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

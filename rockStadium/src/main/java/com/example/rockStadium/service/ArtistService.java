@@ -1,3 +1,4 @@
+package com.example.rockstadium.service;
 // package com.example.rockStadium.service;
 
 // import com.example.rockStadium.dto.ArtistDto;
