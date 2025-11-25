@@ -32,134 +32,141 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1/artists")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Artistas", description = "Endpoints para gestión y búsqueda de artistas musicales")
+@Tag(name = "Artists", description = "Endpoints for artist management and search")
 public class ArtistController {
     
     private final SpotifyService spotifyService;
     private final ArtistEventService artistEventService;
     
     @Operation(
-        summary = "Buscar artistas por nombre",
-        description = "Busca artistas en Spotify por nombre. Retorna hasta 10 resultados con información detallada."
+        summary = "Search artists by name",
+        description = "Search for artists on Spotify by name. Returns up to 10 results with detailed information."
     )
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Artistas encontrados exitosamente",
+            description = "Artists found successfully",
             content = @Content(schema = @Schema(implementation = ArtistResponse.class))
         ),
-        @ApiResponse(responseCode = "400", description = "Parámetro de búsqueda inválido"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+        @ApiResponse(responseCode = "400", description = "Invalid search parameter"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping("/search")
-public ResponseEntity<Page<ArtistResponse>> searchArtists(
-        @Parameter(
-            description = "Artist name to search for", 
-            example = "Metallica", 
-            required = true
-        )
-        @RequestParam String name,
-        @Parameter(
-            description = "Pagination parameters (page, size)",
-            example = "page=0&size=10"
-        )
-        @PageableDefault(size = 10) Pageable pageable) {
-    
-    log.info("🔍 Searching artists: '{}' (page: {}, size: {})", 
-        name, pageable.getPageNumber(), pageable.getPageSize());
-    
-    // Obtener todos los artistas del service (sin cambios en el service)
-    List<ArtistResponse> allArtists = spotifyService.searchArtistsByName(name);
-    
-    // LÓGICA DE PAGINACIÓN MANUAL
-    int start = (int) pageable.getOffset();
-    int end = Math.min((start + pageable.getPageSize()), allArtists.size());
-    
-    List<ArtistResponse> pageContent = start < allArtists.size() 
-        ? allArtists.subList(start, end) 
-        : List.of();
-    
-    Page<ArtistResponse> page = new PageImpl<>(pageContent, pageable, allArtists.size());
-    
-    log.info("✅ Returning {} artists (total: {}, page: {}/{})", 
-        pageContent.size(), 
-        allArtists.size(), 
-        pageable.getPageNumber() + 1,
-        page.getTotalPages());
-    
-    return ResponseEntity.ok(page);
-}
+    public ResponseEntity<Page<ArtistResponse>> searchArtists(
+            @Parameter(
+                description = "Artist name to search for", 
+                example = "Metallica", 
+                required = true
+            )
+            @RequestParam String name,
+            @Parameter(
+                description = "Pagination parameters (page, size)",
+                example = "page=0&size=10"
+            )
+            @PageableDefault(size = 10) Pageable pageable) {
+        
+        log.info("🔍 Searching artists: '{}' (page: {}, size: {})", 
+            name, pageable.getPageNumber(), pageable.getPageSize());
+        
+        // Obtener todos los artistas del servicio
+        List<ArtistResponse> allArtists = spotifyService.searchArtistsByName(name);
+        
+        // Lógica de paginación manual
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), allArtists.size());
+        
+        List<ArtistResponse> pageContent = start < allArtists.size() 
+            ? allArtists.subList(start, end) 
+            : List.of();
+        
+        Page<ArtistResponse> page = new PageImpl<>(pageContent, pageable, allArtists.size());
+        
+        log.info("✅ Returning {} artists (total: {}, page: {}/{})", 
+            pageContent.size(), 
+            allArtists.size(), 
+            pageable.getPageNumber() + 1,
+            page.getTotalPages());
+        
+        return ResponseEntity.ok(page);
+    }
     
     @Operation(
-        summary = "Obtener información de artista por ID",
-        description = "Retorna información detallada de un artista usando su Spotify ID"
+        summary = "Get artist information by ID",
+        description = "Returns detailed information about an artist using their Spotify ID"
     )
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Información del artista obtenida exitosamente"
+            description = "Artist information retrieved successfully"
         ),
-        @ApiResponse(responseCode = "404", description = "Artista no encontrado"),
-        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+        @ApiResponse(responseCode = "404", description = "Artist not found"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping("/{spotifyId}")
     public ResponseEntity<ArtistResponse> getArtistById(
-            @Parameter(description = "Spotify ID del artista", example = "2ye2Wgw4gimLv2eAKyk1NB", required = true)
+            @Parameter(
+                description = "Spotify ID of the artist", 
+                example = "2ye2Wgw4gimLv2eAKyk1NB", 
+                required = true
+            )
             @PathVariable String spotifyId) {
-        log.info("Obteniendo información del artista: {}", spotifyId);
+        
+        log.info("Getting artist information: {}", spotifyId);
         ArtistResponse artist = spotifyService.getArtistById(spotifyId);
         return ResponseEntity.ok(artist);
     }
     
     @Operation(
-        summary = "Obtener información completa del artista con eventos",
-        description = "Retorna información detallada del artista incluyendo:\n" +
-                "- Datos del artista desde Spotify\n" +
-                "- Eventos próximos desde Ticketmaster\n" +
-                "- Información de venues (recintos)\n" +
-                "- Clima del lugar\n" +
-                "- Hoteles cercanos (top 5)\n" +
-                "- Opciones de transporte público"
+        summary = "Get complete artist information with events",
+        description = "Returns comprehensive artist information including:\n" +
+                "- Artist data from Spotify\n" +
+                "- Upcoming events from Ticketmaster\n" +
+                "- Venue information\n" +
+                "- Weather data\n" +
+                "- Nearby hotels (top 5)\n" +
+                "- Public transport options"
     )
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Información completa obtenida exitosamente",
+            description = "Complete information retrieved successfully",
             content = @Content(schema = @Schema(implementation = ArtistCompleteInfoResponse.class))
         ),
-        @ApiResponse(responseCode = "404", description = "Artista no encontrado"),
-        @ApiResponse(responseCode = "500", description = "Error al procesar la solicitud")
+        @ApiResponse(responseCode = "404", description = "Artist not found"),
+        @ApiResponse(responseCode = "500", description = "Error processing request")
     })
     @GetMapping("/{spotifyId}/complete-info")
     public ResponseEntity<ArtistCompleteInfoResponse> getArtistCompleteInfo(
             @Parameter(
-                description = "Spotify ID del artista", 
+                description = "Spotify ID of the artist", 
                 example = "4q3ewBCX7sLwd24euuV69X",
                 required = true
             )
             @PathVariable String spotifyId) {
-        log.info("🎸 Obteniendo información completa del artista: {}", spotifyId);
+        
+        log.info("🎸 Getting complete artist information: {}", spotifyId);
         ArtistCompleteInfoResponse response = artistEventService.getArtistCompleteInfo(spotifyId);
         return ResponseEntity.ok(response);
     }
     
     @Operation(
-        summary = "Obtener múltiples artistas por IDs",
-        description = "Retorna información de múltiples artistas proporcionando una lista de Spotify IDs"
+        summary = "Get multiple artists by IDs",
+        description = "Returns information for multiple artists by providing a list of Spotify IDs"
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Artistas obtenidos exitosamente"),
-        @ApiResponse(responseCode = "400", description = "Lista de IDs inválida")
+        @ApiResponse(responseCode = "200", description = "Artists retrieved successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid IDs list")
     })
     @GetMapping("/multiple")
     public ResponseEntity<List<ArtistResponse>> getArtistsByIds(
             @Parameter(
-                description = "Lista de Spotify IDs separados por coma",
+                description = "Comma-separated list of Spotify IDs",
                 example = "2ye2Wgw4gimLv2eAKyk1NB,4q3ewBCX7sLwd24euuV69X",
                 required = true
             )
             @RequestParam List<String> ids) {
-        log.info("Obteniendo {} artistas", ids.size());
+        
+        log.info("Getting {} artists", ids.size());
         List<ArtistResponse> artists = spotifyService.getArtistsByIds(ids);
         return ResponseEntity.ok(artists);
     }

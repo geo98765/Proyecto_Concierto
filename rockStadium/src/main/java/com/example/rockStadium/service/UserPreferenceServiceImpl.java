@@ -61,80 +61,47 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
     
     // ===== SEARCH PREFERENCES =====
     
-
-/**
- * Valida que el usuario autenticado sea el dueño del recurso o sea ADMIN
- * 
- * @param userId ID del usuario propietario del recurso
- * @throws IllegalStateException si el usuario no tiene permiso
- */
-private void validateUserOwnership(Integer userId) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    
-    if (authentication == null || !authentication.isAuthenticated()) {
-        throw new IllegalStateException("User not authenticated");
-    }
-    
-    // Obtener el email del usuario autenticado
-    String authenticatedEmail = authentication.getName();
-    
-    // Verificar si el usuario autenticado es ADMIN
-    boolean isAdmin = authentication.getAuthorities().stream()
-            .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
-    
-    // Si es ADMIN, tiene permiso total
-    if (isAdmin) {
-        log.debug("Admin user accessing preferences for user ID: {}", userId);
-        return;
-    }
-    
-    // Si no es ADMIN, verificar que sea el propietario
-    User targetUser = userRepository.findById(userId)
-            .orElseThrow(() -> new EntityNotFoundException(
-                    String.format("User not found with id: '%s'", userId)
-            ));
-    
-    if (!targetUser.getEmail().equals(authenticatedEmail)) {
-        log.warn("Unauthorized access attempt by user: {} for user ID: {}", 
-                authenticatedEmail, userId);
-        throw new IllegalStateException("You don't have permission to access this resource");
-    }
-}
-
-
-
-
     @Override
-@Transactional
-public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, UserPreferenceRequest request) {
-    log.info("Configuring preferences for user: {}", userId);
-    validateUserOwnership(userId);
-    Profile profile = getProfileByUserId(userId);
-    UserPreference preference = getOrCreateUserPreference(profile);
-    
-    // Actualizar el radio de búsqueda si está presente en la petición
-    if (request.getSearchRadiusKm() != null) {
-        preference.setSearchRadius(request.getSearchRadiusKm());
+    @Transactional
+    public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, UserPreferenceRequest request) {
+        log.info("Configuring preferences for user: {}", userId);
+        
+        // CORRECCIÓN: Primero buscar el profile para asegurar que existe
+        Profile profile = getProfileByUserId(userId);
+        
+        // Luego validar los permisos de acceso
+        validateUserOwnershipWithProfile(userId, profile);
+        
+        UserPreference preference = getOrCreateUserPreference(profile);
+        
+        // Actualizar el radio de búsqueda si está presente en la petición
+        if (request.getSearchRadiusKm() != null) {
+            preference.setSearchRadius(request.getSearchRadiusKm());
+        }
+        
+        // Actualizar las notificaciones si están presentes en la petición
+        if (request.getEmailNotifications() != null) {
+            preference.setEmailNotifications(request.getEmailNotifications());
+        }
+        
+        preference = userPreferenceRepository.save(preference);
+        log.info("✅ Preferences updated for user {}", userId);
+        
+        // Devolver solo los campos básicos usando el nuevo DTO
+        return mapper.toBasicResponse(preference);
     }
-    
-    // Actualizar las notificaciones si están presentes en la petición
-    if (request.getEmailNotifications() != null) {
-        preference.setEmailNotifications(request.getEmailNotifications());
-    }
-    
-    preference = userPreferenceRepository.save(preference);
-    log.info("✅ Preferences updated for user {}", userId);
-    
-    // Devolver solo los campos básicos usando el nuevo DTO
-    return mapper.toBasicResponse(preference);
-}
     
     @Override
     @Transactional(readOnly = true)
     public UserPreferenceResponse getPreferences(Integer userId, boolean includeFullLists) {
         log.info("Getting preferences for user: {} (includeLists: {})", userId, includeFullLists);
-        validateUserOwnership(userId);
+        
+        // CORRECCIÓN: Primero buscar el profile para asegurar que existe
         Profile profile = getProfileByUserId(userId);
+        
+        // Luego validar los permisos de acceso
+        validateUserOwnershipWithProfile(userId, profile);
+        
         UserPreference preference = userPreferenceRepository
                 .findByProfileProfileId(profile.getProfileId())
                 .orElseGet(() -> createDefaultPreferenceTransactional(profile));
@@ -154,8 +121,12 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
     @Transactional
     public ArtistResponse addFavoriteArtist(Integer userId, String spotifyId) {
         log.info("➕ Adding favorite artist {} for user {}", spotifyId, userId);
-        validateUserOwnership(userId);
+        
+        // CORRECCIÓN: Primero buscar el profile para asegurar que existe
         Profile profile = getProfileByUserId(userId);
+        
+        // Luego validar los permisos de acceso
+        validateUserOwnershipWithProfile(userId, profile);
         
         // Verificar límite
         long currentCount = favoriteArtistRepository.countByProfileProfileId(profile.getProfileId());
@@ -191,8 +162,12 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
     @Transactional
     public SuccessResponse removeFavoriteArtist(Integer userId, Integer artistId) {
         log.info("➖ Removing favorite artist {} from user {}", artistId, userId);
-        validateUserOwnership(userId);
+        
+        // CORRECCIÓN: Primero buscar el profile para asegurar que existe
         Profile profile = getProfileByUserId(userId);
+        
+        // Luego validar los permisos de acceso
+        validateUserOwnershipWithProfile(userId, profile);
         
         // Obtener nombre del artista antes de eliminar
         FavoriteArtist favoriteArtist = favoriteArtistRepository
@@ -216,8 +191,13 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
     public Page<ArtistResponse> getFavoriteArtists(Integer userId, Pageable pageable) {
         log.info("Getting favorite artists for user: {} (page: {}, size: {})", 
                 userId, pageable.getPageNumber(), pageable.getPageSize());
-        validateUserOwnership(userId);
+        
+        // CORRECCIÓN: Primero buscar el profile para asegurar que existe
         Profile profile = getProfileByUserId(userId);
+        
+        // Luego validar los permisos de acceso
+        validateUserOwnershipWithProfile(userId, profile);
+        
         Page<FavoriteArtist> favoritesPage = favoriteArtistRepository
                 .findByProfileProfileId(profile.getProfileId(), pageable);
         
@@ -231,13 +211,17 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
     @Transactional
     public MusicGenreResponse addFavoriteGenre(Integer userId, AddFavoriteGenreRequest request) {
         log.info("➕ Adding favorite genre for user {}: {}", userId, request);
-        validateUserOwnership(userId);
+        
+        // CORRECCIÓN: Primero buscar el profile para asegurar que existe
+        Profile profile = getProfileByUserId(userId);
+        
+        // Luego validar los permisos de acceso
+        validateUserOwnershipWithProfile(userId, profile);
+        
         // Validar request
         if (!request.isValid()) {
             throw new IllegalArgumentException("Either genreId or genreName must be provided");
         }
-        
-        Profile profile = getProfileByUserId(userId);
         
         // Verificar límite
         long currentCount = favoriteGenreRepository.countByProfileProfileId(profile.getProfileId());
@@ -247,7 +231,7 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
             );
         }
         
-        // Buscar género por ID o nombre
+        // Buscar género usando helper method
         MusicGenre genre = findGenreByIdOrName(request);
         
         // Verificar si ya es favorito
@@ -265,26 +249,29 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
         favoriteGenreRepository.save(favoriteGenre);
         log.info("✅ Genre '{}' added to favorites. Total: {}", genre.getName(), currentCount + 1);
         
-        // Retornar solo el género añadido
         return mapper.toGenreResponse(genre);
     }
     
     @Override
     @Transactional
     public SuccessResponse removeFavoriteGenre(Integer userId, DeleteFavoriteGenreRequest request) {
-        log.info("➖ Removing favorite genre for user {}: {}", userId, request);
-        validateUserOwnership(userId);
+        log.info("➖ Removing favorite genre from user {}: {}", userId, request);
+        
+        // CORRECCIÓN: Primero buscar el profile para asegurar que existe
+        Profile profile = getProfileByUserId(userId);
+        
+        // Luego validar los permisos de acceso
+        validateUserOwnershipWithProfile(userId, profile);
+        
         // Validar request
         if (!request.isValid()) {
             throw new IllegalArgumentException("Either genreId or genreName must be provided");
         }
         
-        Profile profile = getProfileByUserId(userId);
-        
-        // Buscar género por ID o nombre
+        // Buscar género usando helper method
         MusicGenre genre = findGenreByIdOrName(request);
         
-        // Obtener relación favorita
+        // Verificar que el género está en favoritos
         FavoriteGenre favoriteGenre = favoriteGenreRepository
                 .findByProfileProfileIdAndMusicGenreMusicGenreId(
                         profile.getProfileId(), genre.getMusicGenreId())
@@ -309,8 +296,13 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
     public Page<MusicGenreResponse> getFavoriteGenres(Integer userId, Pageable pageable) {
         log.info("Getting favorite genres for user: {} (page: {}, size: {})", 
                 userId, pageable.getPageNumber(), pageable.getPageSize());
-        validateUserOwnership(userId);
+        
+        // CORRECCIÓN: Primero buscar el profile para asegurar que existe
         Profile profile = getProfileByUserId(userId);
+        
+        // Luego validar los permisos de acceso
+        validateUserOwnershipWithProfile(userId, profile);
+        
         Page<FavoriteGenre> favoritesPage = favoriteGenreRepository
                 .findByProfileProfileId(profile.getProfileId(), pageable);
         
@@ -329,6 +321,88 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
     
     // ===== HELPER METHODS =====
     
+    /**
+     * Valida que el usuario autenticado sea el dueño del recurso o sea ADMIN
+     * DEPRECATED: Usar validateUserOwnershipWithProfile cuando ya se tiene el Profile cargado
+     * 
+     * @param userId ID del usuario propietario del recurso
+     * @throws IllegalStateException si el usuario no tiene permiso
+     */
+    private void validateUserOwnership(Integer userId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("User not authenticated");
+        }
+        
+        // Obtener el email del usuario autenticado
+        String authenticatedEmail = authentication.getName();
+        
+        // Verificar si el usuario autenticado es ADMIN
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+        
+        // Si es ADMIN, tiene permiso total
+        if (isAdmin) {
+            log.debug("Admin user accessing preferences for user ID: {}", userId);
+            return;
+        }
+        
+        // Si no es ADMIN, verificar que sea el propietario
+        User targetUser = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("User not found with id: '%s'", userId)
+                ));
+        
+        if (!targetUser.getEmail().equals(authenticatedEmail)) {
+            log.warn("Unauthorized access attempt by user: {} for user ID: {}", 
+                    authenticatedEmail, userId);
+            throw new IllegalStateException("You don't have permission to access this resource");
+        }
+    }
+    
+    /**
+     * Valida que el usuario autenticado sea el dueño del recurso o sea ADMIN
+     * Versión optimizada que recibe el Profile ya cargado para evitar consultas duplicadas
+     * 
+     * @param userId ID del usuario propietario del recurso
+     * @param profile Profile que ya fue cargado de la base de datos
+     * @throws IllegalStateException si el usuario no tiene permiso
+     */
+    private void validateUserOwnershipWithProfile(Integer userId, Profile profile) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("User not authenticated");
+        }
+        
+        // Obtener el email del usuario autenticado
+        String authenticatedEmail = authentication.getName();
+        
+        // Verificar si el usuario autenticado es ADMIN
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+        
+        // Si es ADMIN, tiene permiso total
+        if (isAdmin) {
+            log.debug("✅ Admin user accessing preferences for user ID: {}", userId);
+            return;
+        }
+        
+        // Si no es ADMIN, verificar que sea el propietario
+        // El profile ya tiene el user cargado con la relación
+        String targetEmail = profile.getUser().getEmail();
+        
+        if (!targetEmail.equals(authenticatedEmail)) {
+            log.warn("❌ Unauthorized access attempt by user: {} for user ID: {}", 
+                    authenticatedEmail, userId);
+            throw new IllegalStateException("You don't have permission to access this resource");
+        }
+        
+        log.debug("✅ User validated: {} accessing own preferences (ID: {})", 
+                authenticatedEmail, userId);
+    }
+   
     /**
      * Get profile by user ID or throw exception
      * Obtiene el perfil por ID de usuario o lanza excepción
@@ -375,6 +449,51 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
     }
     
     /**
+     * Build complete preference response with all related data
+     * Construye la respuesta completa de preferencias con todos los datos relacionados
+     */
+    private UserPreferenceResponse buildPreferenceResponse(Profile profile, UserPreference preference) {
+        List<FavoriteArtist> favoriteArtists = 
+            favoriteArtistRepository.findByProfileProfileId(profile.getProfileId());
+        List<FavoriteGenre> favoriteGenres = 
+            favoriteGenreRepository.findByProfileProfileId(profile.getProfileId());
+        
+        // Enriquecer artistas con datos de Spotify (lógica de negocio en el servicio)
+        List<ArtistResponse> artistResponses = favoriteArtists.stream()
+                .map(fa -> enrichArtistWithSpotifyData(fa.getArtist()))
+                .collect(Collectors.toList());
+        
+        // Mapeo simple de géneros
+        List<MusicGenreResponse> genreResponses = favoriteGenres.stream()
+                .map(fg -> mapper.toGenreResponse(fg.getMusicGenre()))
+                .collect(Collectors.toList());
+        
+        return mapper.toResponse(preference, artistResponses, genreResponses);
+    }
+    
+    /**
+     * Build preference summary without full lists (only counts)
+     * Construye el resumen de preferencias sin listas completas (solo conteos)
+     */
+    private UserPreferenceResponse buildPreferenceSummary(Profile profile, UserPreference preference) {
+        long artistsCount = favoriteArtistRepository.countByProfileProfileId(profile.getProfileId());
+        long genresCount = favoriteGenreRepository.countByProfileProfileId(profile.getProfileId());
+        
+        return UserPreferenceResponse.builder()
+                .userPreferenceId(preference.getUserPreferenceId())
+                .profileId(profile.getProfileId())
+                .searchRadius(preference.getSearchRadius())
+                .emailNotifications(preference.getEmailNotifications())
+                .favoriteArtists(Collections.emptyList())
+                .favoriteGenres(Collections.emptyList())
+                .favoriteArtistsCount((int) artistsCount)
+                .favoriteGenresCount((int) genresCount)
+                .maxFavoriteArtists(MAX_FAVORITE_ARTISTS)
+                .maxFavoriteGenres(MAX_FAVORITE_GENRES)
+                .build();
+    }
+    
+    /**
      * Get or create artist from Spotify
      * Obtiene o crea un artista desde Spotify
      */
@@ -402,18 +521,21 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
         } catch (Exception e) {
             log.error("Failed to create artist from Spotify: {}", spotifyId, e);
             throw new IllegalStateException(
-                "Unable to fetch artist information from Spotify. Please try again later.", e
+                "Unable to fetch artist information from Spotify. Please try again later."
             );
         }
     }
     
     /**
      * Find genre by ID or name
-     * Tries ID first, then name if ID is not provided
-     * Busca género por ID o nombre (intenta por ID primero, luego por nombre)
+     * Busca género por ID o nombre
+     * 
+     * @param request Request with either genreId or genreName
+     * @return The found genre
+     * @throws EntityNotFoundException if genre not found
      */
     private MusicGenre findGenreByIdOrName(AddFavoriteGenreRequest request) {
-        // Intentar por ID primero si está proporcionado
+        // Primero buscar por ID si está proporcionado
         if (request.getGenreId() != null) {
             return musicGenreRepository.findById(request.getGenreId())
                     .orElseThrow(() -> new EntityNotFoundException(
@@ -421,7 +543,7 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
                     ));
         }
         
-        // Intentar por nombre si está proporcionado
+        // Luego buscar por nombre si está proporcionado
         if (request.getGenreName() != null && !request.getGenreName().trim().isEmpty()) {
             String genreName = request.getGenreName().trim();
             return musicGenreRepository.findByNameIgnoreCase(genreName)
@@ -435,11 +557,15 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
     }
     
     /**
-     * Find genre by ID or name (for DELETE operations)
-     * Busca género por ID o nombre (para operaciones DELETE)
+     * Find genre by ID or name (for delete operations)
+     * Busca género por ID o nombre (para operaciones de eliminación)
+     * 
+     * @param request Request with either genreId or genreName
+     * @return The found genre
+     * @throws EntityNotFoundException if genre not found
      */
     private MusicGenre findGenreByIdOrName(DeleteFavoriteGenreRequest request) {
-        // Intentar por ID primero si está proporcionado
+        // Primero buscar por ID si está proporcionado
         if (request.getGenreId() != null) {
             return musicGenreRepository.findById(request.getGenreId())
                     .orElseThrow(() -> new EntityNotFoundException(
@@ -447,7 +573,7 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
                     ));
         }
         
-        // Intentar por nombre si está proporcionado
+        // Luego buscar por nombre si está proporcionado
         if (request.getGenreName() != null && !request.getGenreName().trim().isEmpty()) {
             String genreName = request.getGenreName().trim();
             return musicGenreRepository.findByNameIgnoreCase(genreName)
@@ -458,29 +584,6 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
         
         // Esto no debería suceder debido a la validación, pero por si acaso
         throw new IllegalArgumentException("Either genreId or genreName must be provided");
-    }
-    
-    /**
-     * Build complete preference response with all related data
-     * Construye la respuesta completa de preferencias con todos los datos relacionados
-     */
-    private UserPreferenceResponse buildPreferenceResponse(Profile profile, UserPreference preference) {
-        List<FavoriteArtist> favoriteArtists = 
-            favoriteArtistRepository.findByProfileProfileId(profile.getProfileId());
-        List<FavoriteGenre> favoriteGenres = 
-            favoriteGenreRepository.findByProfileProfileId(profile.getProfileId());
-        
-        // Enriquecer artistas con datos de Spotify (lógica de negocio en el servicio)
-        List<ArtistResponse> artistResponses = favoriteArtists.stream()
-                .map(fa -> enrichArtistWithSpotifyData(fa.getArtist()))
-                .collect(Collectors.toList());
-        
-        // Mapeo simple de géneros
-        List<MusicGenreResponse> genreResponses = favoriteGenres.stream()
-                .map(fg -> mapper.toGenreResponse(fg.getMusicGenre()))
-                .collect(Collectors.toList());
-        
-        return mapper.toResponse(preference, artistResponses, genreResponses);
     }
     
     /**
@@ -505,27 +608,5 @@ public UserPreferenceBasicResponse createOrUpdatePreferences(Integer userId, Use
         
         // Fallback: retornar datos básicos de la BD usando el mapper
         return mapper.toArtistResponse(artist);
-    }
-    
-    /**
-     * Build preference summary without full lists (only counts)
-     * Construye el resumen de preferencias sin listas completas (solo conteos)
-     */
-    private UserPreferenceResponse buildPreferenceSummary(Profile profile, UserPreference preference) {
-        long artistsCount = favoriteArtistRepository.countByProfileProfileId(profile.getProfileId());
-        long genresCount = favoriteGenreRepository.countByProfileProfileId(profile.getProfileId());
-        
-        return UserPreferenceResponse.builder()
-                .userPreferenceId(preference.getUserPreferenceId())
-                .profileId(profile.getProfileId())
-                .searchRadius(preference.getSearchRadius())
-                .emailNotifications(preference.getEmailNotifications())
-                .favoriteArtists(Collections.emptyList())
-                .favoriteGenres(Collections.emptyList())
-                .favoriteArtistsCount((int) artistsCount)
-                .favoriteGenresCount((int) genresCount)
-                .maxFavoriteArtists(MAX_FAVORITE_ARTISTS)
-                .maxFavoriteGenres(MAX_FAVORITE_GENRES)
-                .build();
     }
 }

@@ -233,9 +233,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse getUserById(Integer userId) {
         log.info("Fetching user by ID: {}", userId);
         
-        // Verificar que el usuario solo pueda ver su propio perfil
-        validateUserOwnership(userId);
-        
+        // CORRECCIÓN: Primero buscar el usuario para asegurar que existe
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> {
                     log.warn("User not found with ID: {}", userId);
@@ -244,6 +242,11 @@ public class UserServiceImpl implements UserService {
                     );
                 });
         
+        // Luego validar los permisos de acceso
+        // Esta validación ahora tiene el usuario garantizado que existe
+        validateUserOwnershipWithUser(userId, user);
+        
+        log.info("✅ User fetched successfully: {}", user.getEmail());
         return userMapper.toResponse(user);
     }
     
@@ -286,6 +289,45 @@ public class UserServiceImpl implements UserService {
                     authenticatedEmail, userId);
             throw new IllegalStateException("You don't have permission to access this resource");
         }
+    }
+    
+    /**
+     * Valida que el usuario autenticado sea el dueño del recurso o sea ADMIN
+     * Versión optimizada que recibe el usuario ya cargado para evitar consultas duplicadas
+     * 
+     * @param userId ID del usuario propietario del recurso
+     * @param targetUser Usuario objetivo que ya fue cargado de la base de datos
+     * @throws IllegalStateException si el usuario no tiene permiso
+     */
+    private void validateUserOwnershipWithUser(Integer userId, User targetUser) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new IllegalStateException("User not authenticated");
+        }
+        
+        // Obtener el email del usuario autenticado
+        String authenticatedEmail = authentication.getName();
+        
+        // Verificar si el usuario autenticado es ADMIN
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+        
+        // Si es ADMIN, tiene permiso total
+        if (isAdmin) {
+            log.debug("✅ Admin user accessing resource for user ID: {}", userId);
+            return;
+        }
+        
+        // Si no es ADMIN, verificar que sea el propietario
+        if (!targetUser.getEmail().equals(authenticatedEmail)) {
+            log.warn("❌ Unauthorized access attempt by user: {} for user ID: {}", 
+                    authenticatedEmail, userId);
+            throw new IllegalStateException("You don't have permission to access this resource");
+        }
+        
+        log.debug("✅ User validated: {} accessing own resource (ID: {})", 
+                authenticatedEmail, userId);
     }
     
     /**
